@@ -1,0 +1,15 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/link_text_material_dark"
+    tools:context="com.example.jawadh.cricket.ViewPlayer">
+
+    <!-- In this page have to
+    code for player view. make a design and code.
+    dont be lazy
+    There must be a back -->
+
+</RelativeLayout>
