@@ -48,7 +48,7 @@ public class UserController {
         data.put("password", password);
 
         String results = con.post("login_user.php",data);
-
+        Log.d("",results);
         return Integer.parseInt(results);
     }
     public boolean usernameAvailability(String username) throws IOException,URISyntaxException{
@@ -88,7 +88,7 @@ public class UserController {
         user.setUserNname("test user");
 
         String results =con.get("get_user.php",data);
-Log.d(",","");
+Log.d(",","jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
         try{
 
             JSONObject temp = new JSONObject(results);
@@ -97,7 +97,7 @@ Log.d(",","");
                 user.setPassword(password);
                 user.setUserid(temp.getInt("user_id"));
                 user.setType(temp.getString("type"));
-            Log.d("",user.getType());
+                Log.d("",user.getType());
         }catch (JSONException e){
             e.getCause();
             e.printStackTrace();

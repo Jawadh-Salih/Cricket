@@ -1,5 +1,7 @@
 package com.example.jawadh.cricket.Other.Controller;
 
+import android.util.Log;
+
 import com.example.jawadh.cricket.Other.Model.Player;
 
 import org.json.JSONArray;
@@ -28,13 +30,7 @@ public class PlayerController {
         return playerController;
     }
     //Player player = new Player();
-    public void updateScore(Player player){
 
-    }
-
-    public void addPlayer(Player player){
-
-    }
 
     public ArrayList<Player> getPlayerDetails(String clubName) throws IOException,URISyntaxException{
         ArrayList<Player> players = new ArrayList<>();
@@ -44,7 +40,7 @@ public class PlayerController {
         data.put("club",clubName);
 
         String results =con.get("get_player.php",data);
-
+        Log.d("",results);
         try{
             JSONArray array = new JSONArray(results);
             JSONObject temp;

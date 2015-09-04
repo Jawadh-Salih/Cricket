@@ -17,14 +17,6 @@
         android:layout_centerHorizontal="true"
         android:gravity="center">
 
-        <Button
-            android:id="@+id/testButton"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="gbbbbbbbbbbbbbb"
-            android:onClick="testScore"/>
-
 
         <TextView
             android:id="@+id/cricmanager"

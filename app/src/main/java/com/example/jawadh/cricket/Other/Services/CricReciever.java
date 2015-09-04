@@ -22,7 +22,7 @@ public class CricReciever extends BroadcastReceiver implements LocationListener 
     @Override
     public void onReceive(Context context, Intent intent) {
         //TODO task
-        Log.d("Pias Receiver", "Recieved.");
+        Log.d("Cric Receiver", "Recieved.");
 
         if (isOnline(context)){
             //Todo

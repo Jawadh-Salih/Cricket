@@ -1,21 +1,21 @@
 package com.example.jawadh.cricket;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.example.jawadh.cricket.Other.Controller.PlayerController;
 import com.example.jawadh.cricket.Other.Model.Player;
 import com.example.jawadh.cricket.Other.Model.User;
+import com.example.jawadh.cricket.Other.Supports.CustomAdapter;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -24,20 +24,20 @@ import java.util.ArrayList;
 
 public class PlayerList extends ActionBarActivity {
 
-    PlayerController playerController = PlayerController.getInstance();
+    private PlayerController playerController = PlayerController.getInstance();
     //PlayerHandler playerHandler = PlayerHandler.getInstance();
-    User user = CricManagerApp.getCurrentUser();
+    private User user = CricManagerApp.getCurrentUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_list);
-if(user==null){
-    user=CricManagerApp.getCurrentUser();
-}
+        if(user==null){
+             user=CricManagerApp.getCurrentUser();
+        }
 
-        Log.d("Current User is a ",user.getUserNname());
+        Log.d("Current User is a ",user.getType());
         try {
-            init();
+            getPlayerList();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -67,61 +67,39 @@ if(user==null){
 
         return super.onOptionsItemSelected(item);
     }
-    public void init() throws IOException, URISyntaxException {
-      //  TableLayout stk = (TableLayout) findViewById(R.id.table_main);
-        TableRow tbrow0 = new TableRow(this);
-        TextView playerName = new TextView(this);
-        playerName.setText(" Player ");
-        playerName.setTextColor(Color.WHITE);
-        tbrow0.addView(playerName);
-        TextView Age = new TextView(this);
-        Age.setText(" Age ");
-        Age.setTextColor(Color.WHITE);
-        tbrow0.addView(Age);
-        TextView Runs = new TextView(this);
-        Runs.setText(" Total Runs  ");
-        Runs.setTextColor(Color.WHITE);
-        tbrow0.addView(Runs);
-        ArrayList<Player> players = new ArrayList<>();
+ // think about drawable to insert an Image
+    public void getPlayerList() throws IOException,URISyntaxException{
 
-        if(user.getType() != "manager") {
-            Log.d(user.getName(),"is not a manger. Something wrong with the current user");
+        ArrayList<Player> players = new ArrayList<>();
+        if(user.getType().trim().equals("manager")) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            players = playerController.getPlayerDetails(user.getClub());
+            ListAdapter playerListAdapter = new CustomAdapter(this,players);
+            ListView playerlistView = (ListView) findViewById(R.id.playerlist);
+            playerlistView.setAdapter(playerListAdapter);
+
+            final ArrayList<Player> finalPlayers = players;
+            playerlistView.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                play(view,finalPlayers,position);
+                        }
+                    }
+            );
         }
-        else
-            players = playerController.getPlayerDetails(user.getClub());// get manager ID.
-        for (int i = 0; i < players.size(); i++) {
-            TableRow tbrow = new TableRow(this);
-            final TextView playername = new TextView(this);
-            playername.setText(players.get(i).getName());
-            playername.setTextColor(Color.WHITE);
-            playername.setGravity(Gravity.CENTER);
-            tbrow.addView(playername);
-            TextView age = new TextView(this);
-            age .setText(players.get(i).getAge() + "");
-            age .setTextColor(Color.WHITE);
-            age .setGravity(Gravity.CENTER);
-            tbrow.addView(age);
-            TextView runs = new TextView(this);
-            runs.setText(players.get(i).getTotalScore());
-            runs.setTextColor(Color.WHITE);
-            runs.setGravity(Gravity.CENTER);
-            tbrow.addView(runs);
-            Button playerButton = new Button(this);
-            playerButton.setText("OK");
-            tbrow.addView(playerButton);
-            playerButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    play(v,playername.getText().toString());
-                }
-            });
+        else{
+            Log.d(user.getName(),"is not a manager. Something wrong with the current user"+ user.getType());
         }
     }
 
-    public void play(View view,String playername){
 
+    public void play(View view,ArrayList<Player> players,int position){
+
+        final ArrayList<Player> finalPlayers = players;
         Intent intent= new Intent(this,ScoreCard.class);
-        intent.putExtra("player_name",playername);
+        intent.putExtra("player_name", finalPlayers.get(position).getName());
         startActivity(intent);
     }
 }

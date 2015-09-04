@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,12 +22,11 @@ import java.net.URISyntaxException;
 
 public class MainActivity extends ActionBarActivity {
 
-    UserController userController;
-    EditText textUsername;
-    EditText textPassword;
-    TextView lblAlert;
-    SharedPreferences preferences; // why we use shared preferences.
-    CheckBox rememberMe;
+    private UserController userController;
+    private EditText textUsername;
+    private EditText textPassword;
+    private TextView lblAlert;
+    private SharedPreferences preferences;
     public static CricManagerApp myApp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +36,11 @@ public class MainActivity extends ActionBarActivity {
         startService(new Intent(getBaseContext(), CricService.class));
 
         myApp = (CricManagerApp)getApplication();
-
         userController = UserController.getInstance();
         textUsername = (EditText)findViewById(R.id.username);
         textPassword = (EditText)findViewById(R.id.password);
         lblAlert = (TextView)findViewById(R.id.tAlert);
-        //rememberMe = (CheckBox)findViewById(R.id.chkRememberMe);
+        //rememberMe = (CheckBox)findViewById(R.id.chkRememberMe); do this if I have time
 
 
         preferences = getSharedPreferences(myApp.PREFS_CODE,0);
@@ -84,9 +81,7 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
     public void login(View v){
-         //before we have to check for the validity of the user that must be done using controller class
-//        Intent intent = new Intent(this,PageOne.class);
-//        startActivity(intent);
+
         final String username = textUsername.getText().toString();
         final String password = textPassword.getText().toString();
 
@@ -103,7 +98,7 @@ public class MainActivity extends ActionBarActivity {
         lblAlert.setText("Logging in...");
 
         try {
-            // what is usage of this?
+            // Making the valdation process under a thread
             AsyncTask at = new AsyncTask() {
                 User user = null;
 
@@ -128,7 +123,7 @@ public class MainActivity extends ActionBarActivity {
                         }
 
                     } catch (IOException e) {
-                        message = "Connection Error";
+                        message = "Connection Error IO EXCEPTION"+e.getMessage(); // remove the final before submission
                         Log.d("",message);
                         return message;
                     } catch (URISyntaxException e) {
@@ -151,12 +146,6 @@ public class MainActivity extends ActionBarActivity {
                         editor.putInt("user_id", user.getUserid());
                         CricManagerApp.setCurrentUser(user);
                         Log.d(user.getUserNname(),user.getType());
-//                        if(user.getType().equals("player")){
-//                            // restrict the user from updating the scoercard
-//                        }
-//                        else if(user.getType().equals("manager")){
-//                            // login as usual.
-//                        }
                         editor.apply();
                         editor.commit();
                         Log.d("cricdebug", preferences.getString("username", "none")
@@ -182,12 +171,5 @@ public class MainActivity extends ActionBarActivity {
     public void loginNow(){
         lblAlert.setText("Login Successful");
         startActivity(new Intent(this,MainMenu.class));
-    }
-    public void setAlert(String alert) {
-        lblAlert.setText(alert);
-    }
-
-    public void testScore(View v){
-        startActivity(new Intent(this,PlayerList.class));
     }
 }

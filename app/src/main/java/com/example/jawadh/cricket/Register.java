@@ -88,7 +88,6 @@ public class Register extends ActionBarActivity {
     }
     public void registerUser(View v){
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
         StrictMode.setThreadPolicy(policy);
         final String username = tuName.getText().toString();
         final String password = tpWord.getText().toString();

@@ -24,19 +24,22 @@ import java.util.List;
 
 public class Connection {
 
-    private String baseURL = "http://192.168.43.185/cricky";//43.185/cricky/";//http://criclub.esy.es/Server_API_1.0/ up to now
+    String huaweiIP = "http://10.8.108.8/cricky";
+    String XioamiIP = "http://192.168.43.185/cricky";
+    String host = "http://cricky.esy.es/cricky";
+    private String baseURL = XioamiIP;
     private static Connection conn = new Connection();
 
+    /*
+      Making the class Singleton
+     */
     private Connection(){}
 
-    public static Connection getInstance(){
-        if(conn == null){
+    public static Connection getInstance() {
+        if (conn == null) {
             conn = new Connection();
         }
         return conn;
-    }
-    public String getBaseURL() {
-        return baseURL;
     }
     public URI getURI(String file) throws URISyntaxException {
         if (baseURL.charAt(baseURL.length() - 1) != '/') {
