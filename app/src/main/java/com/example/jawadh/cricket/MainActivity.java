@@ -132,7 +132,7 @@ public class MainActivity extends ActionBarActivity {
                         return message;
                     }
 
-                    return "System Error";
+                    return "System Error"; // this will give a not null object
                 }
                 @Override
                 protected void onPostExecute(Object o) {
