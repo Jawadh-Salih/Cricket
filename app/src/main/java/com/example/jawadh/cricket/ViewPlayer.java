@@ -1,9 +1,10 @@
 package com.example.jawadh.cricket;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class ViewPlayer extends ActionBarActivity {
@@ -35,5 +36,9 @@ public class ViewPlayer extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updatePlayerEditions(View view){
+        // player controllelr update player.
     }
 }

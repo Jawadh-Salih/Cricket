@@ -144,6 +144,7 @@ public class MainActivity extends ActionBarActivity {
                         editor.putString("password", user.getPassword());
                         editor.putString("type",user.getType());
                         editor.putInt("user_id", user.getUserid());
+                        editor.putString("club",user.getClub());
                         CricManagerApp.setCurrentUser(user);
                         Log.d(user.getUserNname(),user.getType());
                         editor.apply();

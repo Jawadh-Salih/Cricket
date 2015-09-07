@@ -85,10 +85,9 @@ public class UserController {
         User user = new User();
         data.put("username",username);
         data.put("password",password);
-        user.setUserNname("test user");
 
         String results =con.get("get_user.php",data);
-Log.d(",","jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+Log.d(",",results);
         try{
 
             JSONObject temp = new JSONObject(results);
@@ -97,6 +96,7 @@ Log.d(",","jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
                 user.setPassword(password);
                 user.setUserid(temp.getInt("user_id"));
                 user.setType(temp.getString("type"));
+                user.setClub(temp.getString("name"));
                 Log.d("",user.getType());
         }catch (JSONException e){
             e.getCause();

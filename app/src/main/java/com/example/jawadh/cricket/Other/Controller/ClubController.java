@@ -3,6 +3,7 @@ package com.example.jawadh.cricket.Other.Controller;
 
 import android.util.Log;
 
+import com.example.jawadh.cricket.Other.Model.Match;
 import com.example.jawadh.cricket.Other.Model.User;
 
 import java.io.IOException;
@@ -30,6 +31,16 @@ public class ClubController {
         addClub.put("clubname",user.getClub());
 
         con.post("add_club.php",addClub);
+    }
+
+    public void addMatch(Match match) throws IOException,URISyntaxException{
+        HashMap<String,String> addMatch = new HashMap<>();
+        con = Connection.getInstance();
+
+        addMatch.put("verses",match.getVerses());
+
+        con.get("add_match.php",addMatch);
+
     }
 
 }

@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-
+// whenever you call controller class to access database, please use Strictmode thread policy
 public class PlayerList extends ActionBarActivity {
 
     private PlayerController playerController = PlayerController.getInstance();
@@ -75,6 +75,7 @@ public class PlayerList extends ActionBarActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             players = playerController.getPlayerDetails(user.getClub());
+            Log.d(user.getUserNname(),user.getClub());
             ListAdapter playerListAdapter = new CustomAdapter(this,players);
             ListView playerlistView = (ListView) findViewById(R.id.playerlist);
             playerlistView.setAdapter(playerListAdapter);
@@ -96,10 +97,16 @@ public class PlayerList extends ActionBarActivity {
 
 
     public void play(View view,ArrayList<Player> players,int position){
-
-        final ArrayList<Player> finalPlayers = players;
-        Intent intent= new Intent(this,ScoreCard.class);
-        intent.putExtra("player_name", finalPlayers.get(position).getName());
-        startActivity(intent);
+        if(user.getType().equals("manager")) {
+            final ArrayList<Player> finalPlayers = players;
+            Intent intent = new Intent(this, ScoreCard.class);
+            Log.d("The Player name is",finalPlayers.get(position).getName());
+            intent.putExtra("player_name", finalPlayers.get(position).getName());
+            intent.putExtra("player_id",finalPlayers.get(position).getPlayer_id());
+            startActivity(intent);
+        }
+        else if(user.getType().equals("player")){
+            startActivity(new Intent(this,ViewPlayer.class));
+        }
     }
 }

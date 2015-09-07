@@ -1,8 +1,8 @@
 package com.example.jawadh.cricket;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -12,13 +12,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jawadh.cricket.Other.Controller.PlayerController;
 import com.example.jawadh.cricket.Other.Model.Player;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class ScoreCard extends ActionBarActivity {
 
 
+    private PlayerController playerController = PlayerController.getInstance();
     private TextView textR1,textB1,text41,text61,textSR1,textR2,textB2,text42,text62,textSR2,textTotR,textWkts,textOvrs,textExtra ;
-    private TextView player1,player2;
+    private TextView player1;
+    private TextView player2 ;
     private int runs1=0,balls1=0,fours1 = 0,sixes1=0,runs2=0,balls2=0,fours2 = 0,sixes2=0,
             totalRuns=0,wickets=0,extras,balls=0,fours=0,sixes = 0;
     private double sr = 0.0,sr1 = 0.0,sr2 = 0.0;
@@ -26,6 +32,10 @@ public class ScoreCard extends ActionBarActivity {
             six2=0+"",SR2=0.0+"",totalRun=0+"",wicket=0+"",ovr=0+"",extra=0+"",ball=0+"";
     private Button b0,b1,b2,b3,b4,b6,bWd,bNb,bLb,bB,bW,bEnd ; // here I have declared the score buttons
     private String playerName="";
+    private int player_id1 = 0;
+    private int player_id2 = 0;
+    public static Boolean flag1 = false;
+    public static Boolean flag2 = true;
     private Player[] player = new Player[2];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +50,31 @@ public class ScoreCard extends ActionBarActivity {
         player[0].setOnStrike(true);
         player[1].setOnStrike(false);
         Bundle extras=getIntent().getExtras();
-        if(player1.getText().toString() == "" || player1.getText().toString()==null) {
-            player1.setText(playerName);
+        Log.d("Player 1",player1.getText().length()+"");
+        Log.d("Player 2",player2.getText().length()+"");
+
+        if( flag1 == false) {
+            flag1 = true;
+            String player = extras.getString("player_name");
+            player_id1 = extras.getInt("player_id");
+            Log.d("dsdfsdddfdfd",player);
+//            player1 = (TextView) findViewById(R.id.Player1);
+            player1.setText(player);
             Toast.makeText(getApplicationContext(),"Select a suitable Player",Toast.LENGTH_SHORT);
-            startActivity(new Intent(this,PlayerList.class));
+            startActivity(new Intent(this, PlayerList.class));
+
         }
-        else if(player2.getText().toString() == "" || player2.getText().toString()==null)
-            player2.setText(playerName);
-        Toast.makeText(getApplicationContext(),"Select a suitable Player",Toast.LENGTH_SHORT);
-            startActivity(new Intent(this,PlayerList.class));
-        playerName=extras.getString("player_name");
+        if(flag2 == false) {
+            flag2 = true;
+            String player = extras.getString("player_name");
+            Log.d("dsdfsdddfdfd",player);
+            player_id2 = extras.getInt("player_id");
+            //player2 = (TextView) findViewById(R.id.Player2);
+            player2.setText(player);
+            Toast.makeText(getApplicationContext(), "Select a suitable Player", Toast.LENGTH_SHORT);
+            startActivity(new Intent(this, PlayerList.class));
+        }
+       // playerName=extras.getString("player_name");
 
         // if(player1.getText().toString() == null)
        // player1.setText(playerGet().getName());
@@ -73,7 +98,7 @@ public class ScoreCard extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void updateText(View view){
+    public void updateText(View view) throws IOException, URISyntaxException {
         textR1 = (TextView)findViewById(R.id.runsP1);
         textB1 = (TextView)findViewById(R.id.ballsP1);
         text41 = (TextView)findViewById(R.id.foursP1);
@@ -100,118 +125,151 @@ public class ScoreCard extends ActionBarActivity {
         bB = (Button)findViewById(R.id.bye);
         bW = (Button)findViewById(R.id.out);
         bEnd = (Button)findViewById(R.id.endplayer);
-        if(view.getId() == b0.getId()){
-            player[0].setOnStrike(true);
-            player[1].setOnStrike(false);
-                runs1 += 0;
-                runs2 += 0;
-                totalRuns+=0;
-        }
-        else if(view.getId() == b1.getId()){
-            if(player[0].isOnStrike()) {
-                runs1 += 1;
-                player[1].setOnStrike(true);
-                player[0].setOnStrike(false);
-            }
-            if(player[1].isOnStrike()) {
-                runs2 += 1;
-                player[0].setOnStrike(true);
-                player[1].setOnStrike(false);
-            }
 
-            totalRuns+=1;
-
-        }
-        else if(view.getId() == b2.getId()){
-            if(player[0].isOnStrike()) {
-                runs1 += 2;
-                player[1].setOnStrike(false);
-            }
-            if(player[1].isOnStrike()){
-                runs2 += 2;
-                player[0].setOnStrike(false);
-            }
-            totalRuns+=2;
-        }
-        else if(view.getId() == b3.getId()){
-            if(player[0].isOnStrike()) {
-                runs1 += 3;
-                player[1].setOnStrike(true);
-                player[0].setOnStrike(false);
-            }
-            if(player[1].isOnStrike()){
-                runs2 += 3;
-                player[0].setOnStrike(true);
-                player[1].setOnStrike(false);
-            }
-            totalRuns+=3;
-        }
-        else if(view.getId() == b4.getId()){
-            if(player[0].isOnStrike()) {
-                runs1 += 4;
-                player[1].setOnStrike(false);
-            }
-            if(player[1].isOnStrike()){
-                runs2 += 4;
-                player[0].setOnStrike(false);
-            }
-            totalRuns+=4;
-        }
-        else if(view.getId() == b6.getId()){
-            if(player[0].isOnStrike()) {
-                runs1 += 6;
-                player[1].setOnStrike(false);
-            }
-            if(player[1].isOnStrike()){
-                runs2 += 6;
-                player[0].setOnStrike(false);
-            }
-            totalRuns+=6;
-        }
-        else if(view.getId() == bWd.getId()){
-            totalRuns +=1;
-            extras +=1;
-            balls --;
-        }
-        else if(view.getId() == bNb.getId()){
-            totalRuns += 1;
-            extras +=1;
-            balls --;
-        }
-        else if(view.getId() == bLb.getId()){
-            totalRuns += 1;
-            extras +=1;
-        }
-        else if(view.getId() == bB.getId()){
-            totalRuns +=1;
-            extras +=1;
-        }
-        else if(view.getId() == bW.getId()){
-            Intent intent = new Intent(this,PlayerList.class);
-            startActivity(intent);
-            // change the player and going to the list and choosing a player from the
-            // list. and write a method
-            wickets +=1;
-        }
-        balls++;
-        fours = 0; sixes = 0;
-        Log.d(balls + "", "\n");
-        if(balls !=0) {
-            // write a testcase for the actual outcome.
-            if(player[0].isOnStrike()) {
+        if(player[0].isOnStrike()){
+            if(view.getId() == b0.getId()){
+                runs1 +=0;
+                balls1 +=1;
                 sr1 = (runs1 * 100 / balls1);
             }
-            if(player[1].isOnStrike()) {
-                sr2 = (runs2 * 100 / balls1);
+            if(view.getId() == b1.getId()){
+                runs1 +=1;
+                balls1 +=1;
+                sr1 = (runs1 * 100 / balls1);
+                player[0].setOnStrike(false);
+                player[1].setOnStrike(true);
             }
-                ovr = (balls / 6) + "." + (balls % 6);
+            if(view.getId() == b2.getId()){
+                runs1 +=2;
+                balls1 +=1;
+                sr1 = (runs1 * 100 / balls1);
+            }
+            if(view.getId() == b3.getId()){
+                runs1 +=3;
+                balls1 +=1;
+                sr1 = (runs1 * 100 / balls1);
+                player[0].setOnStrike(true);
+                player[1].setOnStrike(false);
+            }
+            if(view.getId() == b4.getId()){
+                runs1 += 4;
+                balls1 += 1;
+                fours1 += 1;
+                sr1 = (runs1 * 100 / balls1);
+            }
+            if(view.getId() == b6.getId()){
+                runs1 +=6;
+                balls1 +=1;
+                sixes1 += 1;
+                sr1 = (runs1 * 100 / balls1);
+            }
+            if(view.getId() == bWd.getId()){
+                totalRuns +=1;
+                extras +=1;
+            }
+            if(view.getId() == bNb.getId()){
+                totalRuns +=1;
+                extras +=1;
+            }
+            if(view.getId() == bLb.getId()){
+                totalRuns += 1;
+                balls1 += 1;
+                extras += 1;
+            }
+            if(view.getId() == bB.getId()){
+                totalRuns+=1;
+                balls1 +=1;
+                extras +=1;
+            }
+            if(view.getId() == bW.getId()){
+                balls1 +=1;
+                wickets+=1;
+                // thread must be started to end data to the database
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                playerController.updateplayerScore(player[0]);
+            }
+            if(view.getId() == bEnd.getId()){
+                //balls2 +=1;
+                //total score send to the database.
+            }
         }
-        else {
-            sr = 0.0;
-            ovr = 0.0+"";
+        // player 2 details will be updated.
+        else if(player[1].isOnStrike()){
+            if(view.getId() == b0.getId()){
+                runs2 +=0;
+                balls2 +=1;
+                sr2 = (runs2 * 100 / balls2);
+            }
+            if(view.getId() == b1.getId()){
+                runs2 +=1;
+                balls2 +=1;
+                sr2 = (runs2 * 100 / balls2);
+                player[0].setOnStrike(true);
+                player[1].setOnStrike(false);
+            }
+            if(view.getId() == b2.getId()){
+                runs2 +=2;
+                balls2 +=1;
+                sr2 = (runs2 * 100 / balls2);
+            }
+            if(view.getId() == b3.getId()){
+                runs2 +=3;
+                balls2 +=1;
+                sr2 = (runs2 * 100 / balls2);
+                player[0].setOnStrike(true);
+                player[1].setOnStrike(false);
+            }
+            if(view.getId() == b4.getId()){
+                runs2 +=4;
+                balls2 +=1;
+                fours2 +=1;
+                sr2 = (runs2 * 100 / balls2);
+            }
+            if(view.getId() == b6.getId()){
+                runs2 +=6;
+                balls2 +=1;
+                sixes2 +=1;
+                sr2 = (runs2 * 100 / balls2);
+            }
+            if(view.getId() == bWd.getId()){
+                totalRuns +=1;
+                balls2 +=1;
+                extras +=1;
+            }
+            if(view.getId() == bNb.getId()){
+                runs1 += 0;
+                totalRuns += 1;
+                balls2 += 1;
+                extras +=1;
+            }
+            if(view.getId() == bLb.getId()){
+                totalRuns+= 1;
+                balls2 += 1;
+                extras +=1;
+            }
+            if(view.getId() == bB.getId()){
+                totalRuns+= 1;
+                balls2 += 1;
+                extras +=1;
+            }
+            if(view.getId() == bW.getId()){
+                balls2 += 1;
+                wickets+= 1;
+                // thread must be started to end data to the database
+            }
+            if(view.getId() == bEnd.getId()){
+                //balls2 +=1;
+                //total score send to the database.
+            }
         }
         run1 = runs1+"";
         run2 = runs2+"";
+
+        totalRuns += runs1;
+        totalRuns += runs2;
+        balls += balls1;
+        balls += balls2;
         totalRun = totalRuns+"";
         wicket = wickets+"";
         ball = balls+"";
@@ -224,8 +282,7 @@ public class ScoreCard extends ActionBarActivity {
         six2 = sixes2+"";
         SR1 = sr1+"";
         SR2 = sr2+"";
-
-
+        ovr = (balls / 6) + "." + (balls % 6);
         textR1.setText(run1);
         textR2.setText(run2);
         textB1.setText(ball1);
@@ -240,29 +297,17 @@ public class ScoreCard extends ActionBarActivity {
         textWkts.setText(wicket);
         textOvrs.setText(ovr);
         textExtra.setText(extra);
+
+        player[0].setPlayer_id(player_id1+"");
+        player[0].setRun(runs1);
+        player[0].setSixes(sixes1);
+        player[0].setFours(fours1);
+        player[0].setsRate(sr1);
+        player[1].setPlayer_id(player_id2+"");
+        player[1].setRun(runs2);
+        player[1].setSixes(sixes2);
+        player[1].setFours(fours2);
+        player[1].setsRate(sr2);
     }
-    public void setPlayerData(View view){
-        // get all the values in the text field. and
-
-    }
-    public void getPlayer1(View v){
-        startActivity(new Intent(this,PlayerList.class));
-    }
-    public void getPlayer2(View v){
-        startActivity(new Intent(this,PlayerList.class));
-
-    }
-
-//    public Player playerGet(){
-//            return PlayerHandler.getInstance().getPlayer();
-//    }
-public void alert(String message){
-    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-
-    builder.setMessage(message);
-
-    AlertDialog alert = builder.create();
-    alert.show();
-}
 
 }

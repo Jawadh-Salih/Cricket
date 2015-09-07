@@ -30,10 +30,12 @@ public class CustomAdapter extends ArrayAdapter<Player>{
         TextView tAge = (TextView) customView.findViewById(R.id.age);
         TextView tName = (TextView) customView.findViewById(R.id.playername);
         TextView tRuns = (TextView) customView.findViewById(R.id.runs);
+        TextView tId = (TextView) customView.findViewById(R.id.playerId);
 
         tName.setText(singlePlayer.getName());
         tAge.setText(singlePlayer.getAge()+" yrs");
         tRuns.setText(singlePlayer.getTotalScore()+"");
+        tId.setText(singlePlayer.getPlayer_id()+"");
 
         return customView;
 

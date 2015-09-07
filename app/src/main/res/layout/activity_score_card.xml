@@ -133,7 +133,7 @@
                 android:id="@+id/Player1"
                 android:layout_width="wrap_content"
                 android:layout_weight="10"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:onClick="getPlayer1"/>
             <TextView
                 android:id="@+id/runsP1"
@@ -171,7 +171,7 @@
                 android:id="@+id/Player2"
                 android:layout_width="wrap_content"
                 android:layout_weight="10"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:onClick="getPlayer2"/>
             <TextView
                 android:id="@+id/runsP2"

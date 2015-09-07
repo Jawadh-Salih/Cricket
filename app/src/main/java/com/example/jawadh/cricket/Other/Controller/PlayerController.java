@@ -40,7 +40,7 @@ public class PlayerController {
         data.put("club",clubName);
 
         String results =con.get("get_player.php",data);
-        Log.d("",results);
+        Log.d(clubName,results);
         try{
             JSONArray array = new JSONArray(results);
             JSONObject temp;
@@ -48,7 +48,7 @@ public class PlayerController {
             for(int i=0;i<array.length();i++){
                 temp =array.getJSONObject(i);
                 player = new Player();
-
+                player.setUserid(temp.getInt("player_id"));
                 player.setName(temp.getString("name"));
                 player.setAge(temp.getInt("age"));
                 player.setTotalScore(temp.getInt("total_score"));
@@ -75,7 +75,7 @@ public class PlayerController {
             for(int i=0;i<array.length();i++){
                 temp =array.getJSONObject(i);
                 player = new Player();
-
+                player.setUserid(temp.getInt("player_id"));
                 player.setName(temp.getString("name"));
                 player.setAge(temp.getInt("age"));
                 player.setTotalScore(temp.getInt("total_score"));
@@ -88,5 +88,16 @@ public class PlayerController {
             e.printStackTrace();
         }
         return  players;
+    }
+    public void updateplayerScore(Player player) throws IOException,URISyntaxException{
+        HashMap<String,String> data = new HashMap<>();
+
+        data.put("runs",player.getRun()+"");
+        data.put("sixes",player.getSixes()+"");
+        data.put("fours",player.getFours()+"");
+        data.put("srate",player.getsRate()+"");
+
+        con.post("update_playerscore.php",data);
+
     }
 }

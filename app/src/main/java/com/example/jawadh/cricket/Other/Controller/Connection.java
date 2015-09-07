@@ -26,6 +26,7 @@ public class Connection {
 
     String huaweiIP = "http://10.8.108.8/cricky";
     String XioamiIP = "http://192.168.43.185/cricky";
+    String XperiaZ = "http://10.8.108.219/cricky";
     String host = "http://cricky.esy.es/cricky";
     private String baseURL = XioamiIP;
     private static Connection conn = new Connection();
