@@ -9,10 +9,22 @@
 
     <TableLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_above="@+id/matchsummary"
         android:id="@+id/matchVs">
+        <TableRow
+            android:id="@+id/matchvs">
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Opposite Club :"
+                android:textSize="@dimen/topic_text_size"
+                android:id="@+id/oclub"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/oclubname"
+                android:textSize="@dimen/topic_text_size"/>
 
+        </TableRow>
 
     </TableLayout>
     <TableLayout
@@ -28,25 +40,25 @@
                 android:layout_width="wrap_content"
                 android:text="Score"
                 android:layout_weight="10"
-                android:textSize="30dp"
+                android:textSize="@dimen/topic_text_size"
                 android:id="@+id/score"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:text="Wkts"
-                android:textSize="30dp"
+                android:textSize="@dimen/topic_text_size"
                 android:layout_weight="4"
                 android:id="@+id/wkts"/>
             <TextView
                 android:id="@+id/ovrs"
                 android:layout_width="wrap_content"
                 android:text="Overs"
-                android:textSize="30dp"
+                android:textSize="@dimen/topic_text_size"
                 android:layout_weight="4"/>
             <TextView
                 android:id="@+id/extra"
                 android:layout_width="wrap_content"
                 android:layout_weight="4"
-                android:textSize="30dp"
+                android:textSize="@dimen/topic_text_size"
                 android:text="Extra"/>
 
         </TableRow>
@@ -58,25 +70,25 @@
                 android:layout_width="wrap_content"
                 android:text=""
                 android:layout_weight="10"
-                android:textSize="30dp"
+                android:textSize="@dimen/club_text_size"
                 android:id="@+id/tscore"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:text=""
-                android:textSize="30dp"
+                android:textSize="@dimen/club_text_size"
                 android:layout_weight="4"
                 android:id="@+id/twkts"/>
             <TextView
                 android:id="@+id/tovrs"
                 android:layout_width="wrap_content"
                 android:text=""
-                android:textSize="30dp"
+                android:textSize="@dimen/club_text_size"
                 android:layout_weight="4"/>
             <TextView
                 android:id="@+id/textra"
                 android:layout_width="wrap_content"
                 android:layout_weight="4"
-                android:textSize="30dp"
+                android:textSize="@dimen/club_text_size"
                 android:text=""/>
 
         </TableRow>
@@ -95,33 +107,33 @@
                 android:layout_width="wrap_content"
                 android:text="Player"
                 android:layout_weight="10"
-                android:textSize="30dp"
+                android:textSize="@dimen/topic_text_size"
                 android:id="@+id/player"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:text="R"
-                android:textSize="30dp"
+                android:textSize="@dimen/topic_text_size"
                 android:layout_weight="4"
                 android:id="@+id/LRun"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:text="B"
-                android:textSize="30dp"
+                android:textSize="@dimen/topic_text_size"
                 android:layout_weight="4"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_weight="4"
-                android:textSize="30dp"
+                android:textSize="@dimen/topic_text_size"
                 android:text="4s"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_weight="4"
-                android:textSize="30dp"
+                android:textSize="@dimen/topic_text_size"
                 android:text="6s"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_weight="4"
-                android:textSize="30dp"
+                android:textSize="@dimen/topic_text_size"
                 android:text="S/R"/>
             <TextView />
         </TableRow>
@@ -133,33 +145,34 @@
                 android:id="@+id/Player1"
                 android:layout_width="wrap_content"
                 android:layout_weight="10"
-                android:textSize="20dp"
+                android:textSize="@dimen/player_text_size"
+                android:text=""
                 android:onClick="getPlayer1"/>
             <TextView
                 android:id="@+id/runsP1"
                 android:layout_width="wrap_content"
-                android:textSize="30dp"
+                android:textSize="@dimen/text_size"
                 android:layout_weight="4"/>
             <TextView
                 android:id="@+id/ballsP1"
                 android:layout_width="wrap_content"
-                android:textSize="30dp"
+                android:textSize="@dimen/text_size"
                 android:layout_weight="4"/>
             <TextView
                 android:id="@+id/foursP1"
                 android:layout_width="wrap_content"
                 android:layout_weight="4"
-                android:textSize="30dp"/>
+                android:textSize="@dimen/text_size"/>
             <TextView
                 android:id="@+id/sixesP1"
                 android:layout_width="wrap_content"
                 android:layout_weight="4"
-                android:textSize="30dp"/>
+                android:textSize="@dimen/text_size"/>
             <TextView
                 android:id="@+id/SRP1"
                 android:layout_width="wrap_content"
                 android:layout_weight="4"
-                android:textSize="30dp"/>
+                android:textSize="@dimen/text_size"/>
             <TextView />
         </TableRow>
         <TableRow
@@ -171,34 +184,34 @@
                 android:id="@+id/Player2"
                 android:layout_width="wrap_content"
                 android:layout_weight="10"
-                android:textSize="20dp"
+                android:textSize="@dimen/player_text_size"
                 android:onClick="getPlayer2"/>
             <TextView
                 android:id="@+id/runsP2"
                 android:layout_width="wrap_content"
-                android:textSize="30dp"
+                android:textSize="@dimen/text_size"
                 android:layout_weight="4"/>
             <TextView
                 android:id="@+id/ballsP2"
                 android:layout_width="wrap_content"
-                android:textSize="30dp"
+                android:textSize="@dimen/text_size"
                 android:layout_weight="4"/>
             <TextView
                 android:id="@+id/foursP2"
                 android:layout_width="wrap_content"
                 android:layout_weight="4"
-                android:textSize="30dp"/>
+                android:textSize="@dimen/text_size"/>
             <TextView
                 android:id="@+id/sixesP2"
                 android:layout_width="wrap_content"
                 android:layout_weight="4"
-                android:textSize="30dp"
+                android:textSize="@dimen/text_size"
                 />
             <TextView
                 android:id="@+id/SRP2"
                 android:layout_width="wrap_content"
                 android:layout_weight="4"
-                android:textSize="30dp"/>
+                android:textSize="@dimen/text_size"/>
             <TextView />
         </TableRow>
 
@@ -320,12 +333,12 @@
         android:layout_height="70dp"
         android:layout_below="@+id/button_layout2">
         <Button
-            android:id="@+id/endplayer"
+            android:id="@+id/endmatch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/material_blue_grey_800"
             android:text="END of The Player"
-            android:onClick="setPlayerData"/>
+            android:onClick="setMatchScores"/>
         </LinearLayout>
 
 </RelativeLayout>

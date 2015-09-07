@@ -39,7 +39,23 @@ public class ClubController {
 
         addMatch.put("verses",match.getVerses());
 
-        con.get("add_match.php",addMatch);
+        con.get("add_match.php", addMatch);
+
+    }
+
+    public void updateMatchScore(Match match,int userid) throws IOException, URISyntaxException {
+        HashMap<String, String> data = new HashMap<>();
+        con = Connection.getInstance();
+
+        data.put("user_id",userid+"");
+        data.put("verses",match.getVerses());
+        data.put("score",match.getScore()+"");
+        data.put("wickets",match.getWickets()+"");
+        data.put("extras",match.getExtras()+"");
+        data.put("overs",match.getOvers());
+        data.put("status","Win");
+
+        con.post("add_clubscore.php",data);
 
     }
 

@@ -91,11 +91,14 @@ public class PlayerController {
     }
     public void updateplayerScore(Player player) throws IOException,URISyntaxException{
         HashMap<String,String> data = new HashMap<>();
+        con = Connection.getInstance();
 
+        data.put("player_id",player.getPlayer_id()+"");
         data.put("runs",player.getRun()+"");
         data.put("sixes",player.getSixes()+"");
         data.put("fours",player.getFours()+"");
         data.put("srate",player.getsRate()+"");
+        data.put("balls",player.getBalls()+"");
 
         con.post("update_playerscore.php",data);
 

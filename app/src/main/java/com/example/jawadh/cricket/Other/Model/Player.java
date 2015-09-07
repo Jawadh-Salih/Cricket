@@ -20,6 +20,7 @@ public class Player extends User {
     private boolean onStrike;
     private TextView playerView;
     private int run;
+    private int  balls;
 
     public String getPlayer_id() {
         return player_id;
@@ -121,6 +122,14 @@ public class Player extends User {
 
     public void setRun(int run) {
         this.run = run;
+    }
+
+    public int getBalls() {
+        return balls;
+    }
+
+    public void setBalls(int balls) {
+        this.balls = balls;
     }
 }
 

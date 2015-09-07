@@ -12,8 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jawadh.cricket.Other.Controller.ClubController;
 import com.example.jawadh.cricket.Other.Controller.PlayerController;
+import com.example.jawadh.cricket.Other.Model.Match;
 import com.example.jawadh.cricket.Other.Model.Player;
+import com.example.jawadh.cricket.Other.Model.User;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -22,16 +25,19 @@ public class ScoreCard extends ActionBarActivity {
 
 
     private PlayerController playerController = PlayerController.getInstance();
+    private ClubController clubController = ClubController.getInstance();
+    private User user = CricManagerApp.getCurrentUser();
     private TextView textR1,textB1,text41,text61,textSR1,textR2,textB2,text42,text62,textSR2,textTotR,textWkts,textOvrs,textExtra ;
     private TextView player1;
     private TextView player2 ;
+    private TextView verses;
     private int runs1=0,balls1=0,fours1 = 0,sixes1=0,runs2=0,balls2=0,fours2 = 0,sixes2=0,
             totalRuns=0,wickets=0,extras,balls=0,fours=0,sixes = 0;
     private double sr = 0.0,sr1 = 0.0,sr2 = 0.0;
     private String run1 = 0+"",ball1 = 0+"",four1=0+"",six1=0+"",SR1=0.0+"",run2 = 0+"",ball2 = 0+"",four2=0+"",
             six2=0+"",SR2=0.0+"",totalRun=0+"",wicket=0+"",ovr=0+"",extra=0+"",ball=0+"";
     private Button b0,b1,b2,b3,b4,b6,bWd,bNb,bLb,bB,bW,bEnd ; // here I have declared the score buttons
-    private String playerName="";
+    private String MatchVerses="";
     private int player_id1 = 0;
     private int player_id2 = 0;
     public static Boolean flag1 = false;
@@ -45,6 +51,7 @@ public class ScoreCard extends ActionBarActivity {
         player[1] = new Player();
         player[0].setPlayerView((TextView)findViewById(R.id.Player1));
         player[1].setPlayerView((TextView)findViewById(R.id.Player2));
+        verses = (TextView) findViewById(R.id.oclubname);
         player1 = player[0].getPlayerView();
         player2 = player[1].getPlayerView();
         player[0].setOnStrike(true);
@@ -52,7 +59,8 @@ public class ScoreCard extends ActionBarActivity {
         Bundle extras=getIntent().getExtras();
         Log.d("Player 1",player1.getText().length()+"");
         Log.d("Player 2",player2.getText().length()+"");
-
+        MatchVerses = extras.getString("verses");
+        verses.setText(MatchVerses);
         if( flag1 == false) {
             flag1 = true;
             String player = extras.getString("player_name");
@@ -124,11 +132,10 @@ public class ScoreCard extends ActionBarActivity {
         bLb = (Button)findViewById(R.id.legbye);
         bB = (Button)findViewById(R.id.bye);
         bW = (Button)findViewById(R.id.out);
-        bEnd = (Button)findViewById(R.id.endplayer);
+        bEnd = (Button)findViewById(R.id.endmatch);
 
         if(player[0].isOnStrike()){
             if(view.getId() == b0.getId()){
-                runs1 +=0;
                 balls1 +=1;
                 sr1 = (runs1 * 100 / balls1);
             }
@@ -197,7 +204,6 @@ public class ScoreCard extends ActionBarActivity {
         // player 2 details will be updated.
         else if(player[1].isOnStrike()){
             if(view.getId() == b0.getId()){
-                runs2 +=0;
                 balls2 +=1;
                 sr2 = (runs2 * 100 / balls2);
             }
@@ -257,11 +263,11 @@ public class ScoreCard extends ActionBarActivity {
                 balls2 += 1;
                 wickets+= 1;
                 // thread must be started to end data to the database
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                playerController.updateplayerScore(player[0]);
             }
-            if(view.getId() == bEnd.getId()){
-                //balls2 +=1;
-                //total score send to the database.
-            }
+
         }
         run1 = runs1+"";
         run2 = runs2+"";
@@ -282,7 +288,7 @@ public class ScoreCard extends ActionBarActivity {
         six2 = sixes2+"";
         SR1 = sr1+"";
         SR2 = sr2+"";
-        ovr = (balls / 6) + "." + (balls % 6);
+        ovr = (balls/6) + "." + (balls%6);
         textR1.setText(run1);
         textR2.setText(run2);
         textB1.setText(ball1);
@@ -303,11 +309,25 @@ public class ScoreCard extends ActionBarActivity {
         player[0].setSixes(sixes1);
         player[0].setFours(fours1);
         player[0].setsRate(sr1);
+        player[0].setBalls(balls1);
         player[1].setPlayer_id(player_id2+"");
         player[1].setRun(runs2);
         player[1].setSixes(sixes2);
         player[1].setFours(fours2);
         player[1].setsRate(sr2);
+        player[1].setBalls(balls2);
     }
 
+    public void setMatchScores(View view) throws IOException, URISyntaxException {
+        Match match = new Match();
+        int userId = user.getUserid();
+        if(wickets == 10) {
+            match.setVerses(MatchVerses);
+            match.setScore(totalRuns);
+            match.setWickets(wickets);
+            match.setExtras(extras);
+            match.setOvers(ovr);
+        }
+        clubController.updateMatchScore(match,userId);
+    }
 }

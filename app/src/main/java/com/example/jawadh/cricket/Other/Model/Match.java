@@ -9,6 +9,10 @@ public class Match {
     private int matchid;
     private Date matchDate;
     private String verses;
+    private int Score;
+    private int wickets;
+    private String overs;
+    private int extras;
 
     public int getMatchid() {
         return matchid;
@@ -32,5 +36,37 @@ public class Match {
 
     public void setVerses(String verses) {
         this.verses = verses;
+    }
+
+    public int getScore() {
+        return Score;
+    }
+
+    public void setScore(int score) {
+        Score = score;
+    }
+
+    public int getWickets() {
+        return wickets;
+    }
+
+    public void setWickets(int wickets) {
+        this.wickets = wickets;
+    }
+
+    public String getOvers() {
+        return overs;
+    }
+
+    public void setOvers(String overs) {
+        this.overs = overs;
+    }
+
+    public int getExtras() {
+        return extras;
+    }
+
+    public void setExtras(int extras) {
+        this.extras = extras;
     }
 }
