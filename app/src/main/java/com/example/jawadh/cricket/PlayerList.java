@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -80,15 +79,15 @@ public class PlayerList extends ActionBarActivity {
             ListView playerlistView = (ListView) findViewById(R.id.playerlist);
             playerlistView.setAdapter(playerListAdapter);
 
-            final ArrayList<Player> finalPlayers = players;
-            playerlistView.setOnItemClickListener(
-                    new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                play(view,finalPlayers,position);
-                        }
-                    }
-            );
+//            final ArrayList<Player> finalPlayers = players;
+//            playerlistView.setOnItemClickListener(
+//                    new AdapterView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                play(view,finalPlayers,position);
+//                        }
+//                    }
+//            );
         }
         else{
             Log.d(user.getName(),"is not a manager. Something wrong with the current user"+ user.getType());
@@ -99,7 +98,7 @@ public class PlayerList extends ActionBarActivity {
     public void play(View view,ArrayList<Player> players,int position){
         if(user.getType().equals("manager")) {
             final ArrayList<Player> finalPlayers = players;
-            Intent intent = new Intent(this, ScoreCard.class);
+            Intent intent = new Intent(this, BattingScoreCard.class);
             Log.d("The Player name is",finalPlayers.get(position).getName());
             intent.putExtra("player_name", finalPlayers.get(position).getName());
             intent.putExtra("player_id",finalPlayers.get(position).getPlayer_id());

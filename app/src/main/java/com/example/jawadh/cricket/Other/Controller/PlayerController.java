@@ -39,7 +39,7 @@ public class PlayerController {
 
         data.put("club",clubName);
 
-        String results =con.get("get_player.php",data);
+        String results =con.post("get_player.php",data);
         Log.d(clubName,results);
         try{
             JSONArray array = new JSONArray(results);
@@ -53,6 +53,7 @@ public class PlayerController {
                 player.setAge(temp.getInt("age"));
                 player.setTotalScore(temp.getInt("total_score"));
 
+                Log.d("iiiiiiiiiiiiiii",player.getUserid()+"");
                 players.add(player);
             }
 
@@ -60,6 +61,48 @@ public class PlayerController {
             e.printStackTrace();
         }
         return  players;
+    }
+    public ArrayList<Player> matchplayerList(String clubName,String verses) throws IOException,URISyntaxException{
+        ArrayList<Player> players = new ArrayList<>();
+        HashMap<String,String> data = new HashMap<>();
+        Player player = null;
+        data.put("club",clubName);
+        data.put("verses",verses);
+
+        String results =con.get("get_matchscorelist.php",data);
+
+        try{
+            JSONArray array = new JSONArray(results);
+            JSONObject temp;
+            for(int i=0;i<array.length();i++){
+                temp =array.getJSONObject(i);
+                player = new Player();
+                player.setUserid(temp.getInt("player_id"));
+                player.setName(temp.getString("name"));
+                player.setTotalScore(temp.getInt("player_score"));
+                player.setSixes(temp.getInt("balls"));
+                player.setsRate(temp.getDouble("srate"));
+
+                players.add(player);
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return  players;
+    }
+    public void updateplayerScore(Player player) throws IOException,URISyntaxException{
+        HashMap<String,String> data = new HashMap<>();
+        con = Connection.getInstance();
+
+        data.put("player_id",player.getPlayer_id()+"");
+        data.put("runs",player.getRun()+"");
+        data.put("sixes",player.getSixes()+"");
+        data.put("fours",player.getFours()+"");
+        data.put("srate",player.getsRate()+"");
+        data.put("balls",player.getBalls()+"");
+
+        con.post("update_playerscore.php",data);
+
     }
     public ArrayList<Player> getPlayerAll(String clubName) throws IOException,URISyntaxException{
         ArrayList<Player> players = new ArrayList<>();
@@ -89,18 +132,5 @@ public class PlayerController {
         }
         return  players;
     }
-    public void updateplayerScore(Player player) throws IOException,URISyntaxException{
-        HashMap<String,String> data = new HashMap<>();
-        con = Connection.getInstance();
 
-        data.put("player_id",player.getPlayer_id()+"");
-        data.put("runs",player.getRun()+"");
-        data.put("sixes",player.getSixes()+"");
-        data.put("fours",player.getFours()+"");
-        data.put("srate",player.getsRate()+"");
-        data.put("balls",player.getBalls()+"");
-
-        con.post("update_playerscore.php",data);
-
-    }
 }

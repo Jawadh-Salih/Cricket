@@ -5,7 +5,7 @@ import android.test.InstrumentationTestCase;
 /**
  * Created by Jawadh on 9/2/2015.
  */
-public class ScoreCardTest extends InstrumentationTestCase {
+public class BattingScoreCardTest extends InstrumentationTestCase {
 
     public void test() throws Exception {
         final int expected = 1;

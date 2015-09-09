@@ -78,35 +78,46 @@ public class MainMenu extends ActionBarActivity {
         // anyone can go to this page who is in the club
         startActivity(new Intent(this,PlayerList.class));
     }
-    public void newMatch(final View view){
+    public void newMatchBatting(final View view){
+        String item;
         if(user.getType().equals("manager")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("New Match");
             final EditText input = new EditText(MainMenu.this);
+            final EditText bowlObat = new EditText(MainMenu.this);
+
             input.setInputType(InputType.TYPE_CLASS_TEXT);
+            bowlObat.setInputType(InputType.TYPE_CLASS_TEXT);
             input.setHint(" Match Vs ");
+            bowlObat.setHint(" type bowling or batting");
 
             LinearLayout lay = new LinearLayout(this);
             lay.setOrientation(LinearLayout.VERTICAL);
             lay.addView(input);
+            lay.addView(bowlObat);
             builder.setView(lay);
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     // deal with the editable
                     if (match == null)
                         match = new Match();
-                    match.setVerses(input.getText().toString());
-                    try {
-                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                        StrictMode.setThreadPolicy(policy);
-                        clubController.addMatch(match);
+                    if(input.getText().toString().length()>0) {
+                        match.setVerses(input.getText().toString());
+                        try {
+                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                            StrictMode.setThreadPolicy(policy);
+                            clubController.addMatch(match);
+                            if(bowlObat.getText().toString().toLowerCase() == "batting" || bowlObat.getText().toString().toLowerCase() == "bowling")
+                                scorecards(view,
+                                        input.getText().toString(),bowlObat.getText().toString().toLowerCase());
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    }
-                    gotoPlayerList(view, input.getText().toString());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                         }
+
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -121,9 +132,19 @@ public class MainMenu extends ActionBarActivity {
                     "a match as a Player",Toast.LENGTH_SHORT).show();
         }
     }
-    public void gotoPlayerList(View view,String verses){
-        Intent intent = new Intent(this, PlayerList.class);
-        intent.putExtra("verses",verses);
-        startActivity(intent);
+    // get in to the score card for relevent activity.
+    public void scorecards(View view,String verses,String batObowl){
+        Intent intent;
+        if(batObowl == "batting") {
+            intent = new Intent(this, BattingScoreCard.class);
+            intent.putExtra("verses", verses);
+            startActivity(intent);
+        }
+        else if(batObowl == "bowling"){
+            intent = new Intent(this, BowlingScoreCard.class);
+            intent.putExtra("verses", verses);
+            startActivity(intent);
+        }
     }
+
 }

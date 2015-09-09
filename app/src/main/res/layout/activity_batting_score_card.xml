@@ -5,7 +5,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="@color/link_text_material_dark"
-    tools:context="com.example.jawadh.cricket.ScoreCard">
+    tools:context="com.example.jawadh.cricket.BattingScoreCard">
 
     <TableLayout
         android:layout_width="fill_parent"
@@ -222,6 +222,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="70dp"
+        android:layout_marginTop="10dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -267,7 +268,6 @@
             android:id="@+id/button4"
             android:layout_toRightOf="@+id/button3"
             android:onClick="updateText"/>
-
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"

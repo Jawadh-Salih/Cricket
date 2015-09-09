@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ScoreCard"
+            android:name=".BattingScoreCard"
             android:label="@string/title_activity_score_card" >
         </activity>
         <activity
@@ -88,6 +88,18 @@
         <activity
             android:name=".CreateMatch"
             android:label="@string/title_activity_create_match" >
+        </activity>
+        <activity
+            android:name=".MatchScore"
+            android:label="@string/title_activity_match_score" >
+        </activity>
+        <activity
+            android:name=".BowlingScoreCard"
+            android:label="@string/title_activity_bowling_score_card" >
+        </activity>
+        <activity
+            android:name=".PlayerListScore"
+            android:label="@string/title_activity_score_card" >
         </activity>
     </application>
 

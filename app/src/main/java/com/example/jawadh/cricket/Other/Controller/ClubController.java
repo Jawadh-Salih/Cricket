@@ -50,13 +50,22 @@ public class ClubController {
         data.put("user_id",userid+"");
         data.put("verses",match.getVerses());
         data.put("score",match.getScore()+"");
-        data.put("wickets",match.getWickets()+"");
+       // data.put("wickets",match.getWickets()+"");
         data.put("extras",match.getExtras()+"");
         data.put("overs",match.getOvers());
         data.put("status","Win");
 
         con.post("add_clubscore.php",data);
 
+    }
+    public String  checkClub(String club) throws IOException, URISyntaxException {
+        HashMap<String,String> data = new HashMap<>();
+        con = Connection.getInstance();
+        data.put("club",club);
+
+        String results = con.post("check_club.php",data);
+
+        return results;
     }
 
 }

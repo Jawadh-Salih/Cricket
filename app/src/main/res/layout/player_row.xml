@@ -9,35 +9,36 @@
         android:layout_height="50dp"
         android:layout_weight="30"
         android:layout_margin="5dp"
-        android:text="ID"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:id="@+id/playerId" />
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="30"
-        android:layout_margin="5dp"
         android:text="Name"
         android:gravity="center"
         android:textSize="20dp"
-        android:id="@+id/playername" />
+        android:id="@+id/nameplayer" />
     <TextView
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_weight="30"
         android:layout_margin="5dp"
-        android:text="Age"
+        android:text="Score"
         android:gravity="center"
         android:textSize="20dp"
-        android:id="@+id/age"/>
+        android:id="@+id/scoreplayer" />
     <TextView
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_weight="30"
         android:layout_margin="5dp"
-        android:text="Runs"
+        android:text="Balls"
         android:gravity="center"
         android:textSize="20dp"
-        android:id="@+id/runs"/>
+        android:id="@+id/ballsfaced"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="30"
+        android:layout_margin="5dp"
+        android:text="S.Rate"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:id="@+id/strikerate"/>
+
 </LinearLayout>

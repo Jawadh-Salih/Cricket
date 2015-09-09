@@ -21,7 +21,7 @@ import com.example.jawadh.cricket.Other.Model.User;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class ScoreCard extends ActionBarActivity {
+public class BattingScoreCard extends ActionBarActivity {
 
 
     private PlayerController playerController = PlayerController.getInstance();
@@ -46,7 +46,7 @@ public class ScoreCard extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_score_card);
+        setContentView(R.layout.activity_batting_score_card);
         player[0] = new Player();
         player[1] = new Player();
         player[0].setPlayerView((TextView)findViewById(R.id.Player1));
@@ -59,7 +59,7 @@ public class ScoreCard extends ActionBarActivity {
         Bundle extras=getIntent().getExtras();
         Log.d("Player 1",player1.getText().length()+"");
         Log.d("Player 2",player2.getText().length()+"");
-        MatchVerses = extras.getString("verses");
+//        MatchVerses = extras.getString("verses");
         verses.setText(MatchVerses);
         if( flag1 == false) {
             flag1 = true;
@@ -272,10 +272,8 @@ public class ScoreCard extends ActionBarActivity {
         run1 = runs1+"";
         run2 = runs2+"";
 
-        totalRuns += runs1;
-        totalRuns += runs2;
-        balls += balls1;
-        balls += balls2;
+        totalRuns = runs1 + runs2;
+        balls = balls1 + balls2;
         totalRun = totalRuns+"";
         wicket = wickets+"";
         ball = balls+"";

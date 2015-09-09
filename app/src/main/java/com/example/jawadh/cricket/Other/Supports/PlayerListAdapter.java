@@ -13,12 +13,12 @@ import com.example.jawadh.cricket.R;
 import java.util.ArrayList;
 
 /**
- * Created by Jawadh on 9/4/2015.
+ * Created by Jawadh on 9/7/2015.
  */
-public class CustomAdapter extends ArrayAdapter<Player>{
+public class PlayerListAdapter extends ArrayAdapter<Player> {
 
-    public CustomAdapter(Context context, ArrayList<Player> players) {
-        super(context, R.layout.custom_row, players);
+    public PlayerListAdapter(Context context, ArrayList<Player> players) {
+        super(context, R.layout.player_row, players);
     }
 
     @Override
@@ -27,15 +27,15 @@ public class CustomAdapter extends ArrayAdapter<Player>{
         View customView = inflater.inflate(R.layout.custom_row,parent,false);
 
         Player singlePlayer = getItem(position);
-        TextView tAge = (TextView) customView.findViewById(R.id.age);
-        TextView tName = (TextView) customView.findViewById(R.id.playername);
-        TextView tRuns = (TextView) customView.findViewById(R.id.runs);
-        TextView tId = (TextView) customView.findViewById(R.id.playerId);
+        TextView tName = (TextView) customView.findViewById(R.id.nameplayer);
+        TextView tScore = (TextView) customView.findViewById(R.id.scoreplayer);
+        TextView tBalls = (TextView) customView.findViewById(R.id.ballsfaced);
+        TextView tsRate = (TextView) customView.findViewById(R.id.strikerate);
 
-        tId.setText(singlePlayer.getUserid()+"");
         tName.setText(singlePlayer.getName());
-        tAge.setText(singlePlayer.getAge()+" yrs");
-        tRuns.setText(singlePlayer.getTotalScore()+"");
+        tScore.setText(singlePlayer.getAge()+"");
+        tBalls.setText(singlePlayer.getTotalScore()+"");
+        tsRate.setText(singlePlayer.getPlayer_id()+"");
 
         return customView;
 

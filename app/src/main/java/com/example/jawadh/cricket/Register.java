@@ -3,7 +3,6 @@ package com.example.jawadh.cricket;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -11,7 +10,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.jawadh.cricket.Other.Controller.ClubController;
@@ -29,7 +31,9 @@ public class Register extends ActionBarActivity {
     private User user;
     UserController userController;
     ClubController clubController;
-    EditText tName,tuName,tpWord,tType,tage,tClub;
+    EditText tName,tuName,tpWord,tage,tClub;
+    Spinner dropdown;
+    String item = "";
     TextView lblAlert ;
 
     @Override
@@ -43,24 +47,28 @@ public class Register extends ActionBarActivity {
 
         userController = UserController.getInstance();
         clubController = ClubController.getInstance();
-        tName = (EditText)findViewById(R.id.name);
-        tuName = (EditText)findViewById(R.id.userRname);
-        tpWord = (EditText)findViewById(R.id.Rpassword);
+        tName = (EditText) findViewById(R.id.name);
+        tuName = (EditText) findViewById(R.id.userRname);
+        tpWord = (EditText) findViewById(R.id.Rpassword);
         tage = (EditText) findViewById(R.id.age);// make s spinner (combo box for this)
-        tType = (EditText)findViewById(R.id.type);
-        tClub = (EditText)findViewById(R.id.club);
-        lblAlert = (TextView)findViewById(R.id.tAlert);
-        //rememberMe = (CheckBox)findViewById(R.id.chkRememberMe);
+        tClub = (EditText) findViewById(R.id.club);
+        lblAlert = (TextView) findViewById(R.id.tAlertReg);
+        dropdown = (Spinner) findViewById(R.id.type);
+        final String[] items = new String[]{"player", "manager"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
+        dropdown.setAdapter(adapter);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                item = items[position];
+            }
 
-//
-//        preferences = getSharedPreferences(myApp.PREFS_CODE,0);
-//        //restore username password if user has asked to remember user.
-//        if(preferences.getBoolean("remember",false)){
-//            textUsername.setText(preferences.getString("username",""));
-//            textPassword.setText(preferences.getString("password",""));
-//        }
-//        Log.d("CricDebug", preferences.contains("remember") + "");
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
     }
 
 
@@ -86,17 +94,28 @@ public class Register extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void registerUser(View v){
+    public void registerUser(final View v) throws IOException, URISyntaxException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         final String username = tuName.getText().toString();
         final String password = tpWord.getText().toString();
-        final String type = tType.getText().toString();
+        final String type = item;
         final String name = tName.getText().toString();
         final int age = Integer.parseInt(tage.getText().toString());
         final String club = tClub.getText().toString();
+        if(userController.usernameAvailability(username).equals("FALSE")) {
+            if (clubController.checkClub(club).equals("FALSE") && item == "player") {
+                lblAlert.setText(" Please enter your valid Club name");
+            } else if (clubController.checkClub(club).equals("TRUE") && item == "manager") {
+                lblAlert.setText(" Club name already Exists");
+            }
+            else
+            gotoLogin(v);
 
-
+        }
+        else if(userController.usernameAvailability(username).equals("TRUE")){
+            lblAlert.setText(" Entered username is already in use ");
+        }
         // make a widget form to load the club details.
         if(username == null || username.length() <= 0) {
             lblAlert.setText("Invalid Username");
@@ -109,7 +128,35 @@ public class Register extends ActionBarActivity {
             return;
         }
         try{
-            AsyncTask asyncTask = new AsyncTask() {
+
+        }
+        catch (Exception e){
+           // lblAlert.setText(e.toString());
+        }
+       // startActivity(new Intent(this,MainActivity.class));
+
+    }
+
+    public void gotoLogin(View view){
+        startActivity(new Intent(this,MainActivity.class));
+    }
+    public void alert(String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+
+        builder.setMessage(message);
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void ThreadActivities(){
+        // get all the usernames as a string array and return.
+
+    }
+
+}
+/*
+ AsyncTask asyncTask = new AsyncTask() {
                 @Override
                 protected Object doInBackground(Object[] params) {
                     Boolean isExist;
@@ -127,12 +174,6 @@ public class Register extends ActionBarActivity {
                     if(isExist) { //username error
                         message = "Try another username, User name already exists";
                         lblAlert.setText(message);
-
-                        if(type.toLowerCase() != "player" || type.toLowerCase() != "manager") {
-                            message = "please write a correct type";
-                            lblAlert.setText(message);
-                            return message;
-                        }
                         return message;
                     }
                     else
@@ -150,17 +191,14 @@ public class Register extends ActionBarActivity {
                         user.setName(name);
                         user.setAge(age);
                         user.setClub(club);
-
+                        gotoLogin(v);
                         try {
                             if (user.getType().equals("manager")) {
-                                Log.d("",user.getClub());
-                                clubController.addClub(user);
                                 userController.addUser(user);
-                                // login as usual.
+
                             }
                             if (user.getType().equals("player")) {
                                 userController.addUser(user);
-                                Log.d("",user.getType());
                             }
                             //if(!user.getType().equals("manager") || !user.getType().equals("player"))
                                 //alert("Please enter a valid User (player or Manager)");
@@ -174,52 +212,4 @@ public class Register extends ActionBarActivity {
 
             asyncTask.execute();
 
-        }
-        catch (Exception e){
-            lblAlert.setText(e.toString());
-        }
-        startActivity(new Intent(this,MainActivity.class));
-
-    }
-    public void setAlert(String alert) {
-        lblAlert.setText(alert);
-    }
-    public void gotoLogin(View view){
-        startActivity(new Intent(this,MainActivity.class));
-    }
-    public void alert(String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-
-        builder.setMessage(message);
-
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-}
-//                                final EditText input = new EditText(Register.this);
-// new AlertDialog.Builder(Register.this)
-//        .setTitle("Your Club Name")
-//        .setMessage("Club")
-//        .setView(input)
-//        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//public void onClick(DialogInterface dialog, int whichButton) {
-//        // deal with the editable
-//        user.setClub(input.getText().toString());
-//
-//        try {
-//        clubController.addClub(user);
-//        userController.addUser(user);
-//        gotoLogin();
-//        } catch (IOException e) {
-//        e.printStackTrace();
-//        } catch (URISyntaxException e) {
-//        e.printStackTrace();
-//        }
-//        }
-//        })
-//        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//public void onClick(DialogInterface dialog, int whichButton) {
-//        // Do nothing.
-//        }
-//        }).show();
+ */

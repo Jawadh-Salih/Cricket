@@ -46,7 +46,7 @@ public class PageOne extends ActionBarActivity {
     }
     public void getScoreCard(View view){
         Log.d("jawadh", "Inside the view");
-        Intent intent = new Intent(this,ScoreCard.class);
+        Intent intent = new Intent(this,BattingScoreCard.class);
         startActivity(intent);
 
     }

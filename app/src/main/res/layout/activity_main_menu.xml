@@ -15,7 +15,8 @@
         android:layout_above="@+id/PlayerList"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="newMatch"/>
+        android:onClick="newMatchBatting"/>
+
     <Button
         android:id="@+id/PlayerList"
         android:layout_width="fill_parent"

@@ -1,7 +1,5 @@
 package com.example.jawadh.cricket.Other.Controller;
 
-import android.util.Log;
-
 import com.example.jawadh.cricket.Other.Model.Player;
 import com.example.jawadh.cricket.Other.Model.User;
 
@@ -48,17 +46,16 @@ public class UserController {
         data.put("password", password);
 
         String results = con.post("login_user.php",data);
-        Log.d("",results);
         return Integer.parseInt(results);
     }
-    public boolean usernameAvailability(String username) throws IOException,URISyntaxException{
+    public String usernameAvailability(String username) throws IOException,URISyntaxException{
         HashMap<String,String> data = new HashMap<>();
         con = Connection.getInstance();
         data.put("username",username);
 
         String results = con.post("check_user.php",data);
 
-        return Boolean.parseBoolean(results);
+        return (results);
     }
     public void addUser(User user)throws IOException,URISyntaxException{
         HashMap<String,String> data = new HashMap<>();
@@ -87,7 +84,6 @@ public class UserController {
         data.put("password",password);
 
         String results =con.get("get_user.php",data);
-Log.d(",",results);
         try{
 
             JSONObject temp = new JSONObject(results);
@@ -97,7 +93,7 @@ Log.d(",",results);
                 user.setUserid(temp.getInt("user_id"));
                 user.setType(temp.getString("type"));
                 user.setClub(temp.getString("name"));
-                Log.d("",user.getType());
+
         }catch (JSONException e){
             e.getCause();
             e.printStackTrace();

@@ -49,8 +49,6 @@ public class MainActivity extends ActionBarActivity {
             textUsername.setText(preferences.getString("username",""));
             textPassword.setText(preferences.getString("password",""));
         }
-        Log.d("CricDebug", preferences.contains("remember") + "");
-        //rememberMe.setChecked(preferences.getBoolean("remember", true));
     }
 
 
@@ -124,11 +122,9 @@ public class MainActivity extends ActionBarActivity {
 
                     } catch (IOException e) {
                         message = "Connection Error IO EXCEPTION"+e.getMessage(); // remove the final before submission
-                        Log.d("",message);
                         return message;
                     } catch (URISyntaxException e) {
                         message = "Internal Error";
-                        Log.d("",message);
                         return message;
                     }
 
@@ -139,14 +135,12 @@ public class MainActivity extends ActionBarActivity {
                     super.onPostExecute(o);
                     if(o == null) {
                         SharedPreferences.Editor editor = preferences.edit();
-                        Log.d("",user.getType());
                         editor.putString("username", user.getUserNname());
                         editor.putString("password", user.getPassword());
                         editor.putString("type",user.getType());
                         editor.putInt("user_id", user.getUserid());
                         editor.putString("club",user.getClub());
                         CricManagerApp.setCurrentUser(user);
-                        Log.d(user.getUserNname(),user.getType());
                         editor.apply();
                         editor.commit();
                         Log.d("cricdebug", preferences.getString("username", "none")
