@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.jawadh.cricket.Other.Controller.UserController;
 import com.example.jawadh.cricket.Other.DataAccess.LocalDatabase;
+import com.example.jawadh.cricket.Other.Model.Match;
 import com.example.jawadh.cricket.Other.Model.User;
 
 public class CricManagerApp extends Application {
@@ -14,6 +15,7 @@ public class CricManagerApp extends Application {
     public final String PREFS_CODE = "CricPrefs";// use of this?
     private static LocalDatabase localDatabase;
     private static User currentUser;
+    private static Match currentMatch;
 
     public CricManagerApp() {
         super();
@@ -32,5 +34,12 @@ public class CricManagerApp extends Application {
     public static void setCurrentUser(User currentUser) {
         Log.d("User",currentUser.getUserNname());
         CricManagerApp.currentUser = currentUser;
+    }
+
+    public static void setCurrentMatch(Match currentMatch){
+        CricManagerApp.currentMatch = currentMatch;
+    }
+    public static Match getCurrentMatch(){
+        return currentMatch;
     }
 }

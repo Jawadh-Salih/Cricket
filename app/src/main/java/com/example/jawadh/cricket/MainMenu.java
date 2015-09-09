@@ -100,8 +100,9 @@ public class MainMenu extends ActionBarActivity {
                             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                             StrictMode.setThreadPolicy(policy);
                             clubController.addMatch(match);
-                                scorecards(v, input.getText().toString().trim());//, bowlObat.getText().toString().toLowerCase());
-                                Log.d("fffffffffffffff", bowlObat.getText().toString().toLowerCase());
+                            scorecards(v, input.getText().toString().trim());//, bowlObat.getText().toString().toLowerCase());
+                            Log.d("fffffffffffffff",match.getVerses());
+                            CricManagerApp.setCurrentMatch(match);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (URISyntaxException e) {

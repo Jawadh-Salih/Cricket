@@ -28,7 +28,7 @@ public class BattingScoreCard extends ActionBarActivity {
     private User user = CricManagerApp.getCurrentUser();
     private TextView textR1,textB1,text41,text61,textSR1,textR2,textB2,text42,text62,textSR2,textTotR,textWkts,textOvrs,textExtra ;
     private TextView player1;
-    private TextView player2 ;
+    private TextView player2;
     private TextView verses;
     private int runs1=0,balls1=0,fours1 = 0,sixes1=0,runs2=0,balls2=0,fours2 = 0,sixes2=0,
             totalRuns=0,wickets=0,extras,balls=0,fours=0,sixes = 0;
@@ -36,34 +36,36 @@ public class BattingScoreCard extends ActionBarActivity {
     private String run1 = 0+"",ball1 = 0+"",four1=0+"",six1=0+"",SR1=0.0+"",run2 = 0+"",ball2 = 0+"",four2=0+"",
             six2=0+"",SR2=0.0+"",totalRun=0+"",wicket=0+"",ovr=0+"",extra=0+"",ball=0+"";
     private Button b0,b1,b2,b3,b4,b6,bWd,bNb,bLb,bB,bW,bEnd ; // here I have declared the score buttons
-    private String MatchVerses="",playerusername;
+    private String MatchVerses="";
     private int player_id1 = 0;
     private int player_id2 = 0;
-    public static Boolean flag1 = false;
-    public static Boolean flag2 = true;
     private Player[] player = new Player[2];
+    private String playerName1,getPlayerName2;
+    private Match match = CricManagerApp.getCurrentMatch();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_batting_score_card);
+        Bundle extras=getIntent().getExtras();
         player[0] = new Player();
         player[1] = new Player();
         player[0].setPlayerView((TextView)findViewById(R.id.Player1));
         player[1].setPlayerView((TextView)findViewById(R.id.Player2));
+
+        playerName1 = extras.getString("player_name");
+        MatchVerses = match.getVerses();
         verses = (TextView) findViewById(R.id.oclubname);
         player1 = player[0].getPlayerView();
         player2 = player[1].getPlayerView();
         player[0].setOnStrike(true);
         player[1].setOnStrike(false);
-        Bundle extras=getIntent().getExtras();
-        Log.d("Player 1",player1.getText().length()+"");
-        Log.d("Player 2",player2.getText().length()+"");
 //        MatchVerses = extras.getString("verses");
         verses.setText(MatchVerses);
-        Log.d("ddddddddddddd",MatchVerses);
+        //player1.setText(playerName1);
+        Log.d("ddddddddddddlllllllllllllllllllllllllllllllld",MatchVerses);
        // playerName=extras.getString("player_name");
-        playerusername = extras.getString("player_name");
-        player[0].setUserNname(playerusername);
+        playerName1 = extras.getString("player_name");
+        player[0].setUserNname(playerName1);
 
         // if(player1.getText().toString() == null)
        // player1.setText(playerGet().getName());

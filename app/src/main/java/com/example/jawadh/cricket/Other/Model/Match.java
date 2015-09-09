@@ -13,6 +13,8 @@ public class Match {
     private int wickets;
     private String overs;
     private int extras;
+    private Player batsMan1;
+    private Player batsMan2;
 
     public int getMatchid() {
         return matchid;
@@ -69,4 +71,21 @@ public class Match {
     public void setExtras(int extras) {
         this.extras = extras;
     }
+
+    public Player getBatsMan1() {
+        return batsMan1;
+    }
+
+    public void setBatsMan1(Player batsMan1) {
+        this.batsMan1 = batsMan1;
+    }
+
+    public Player getBatsMan2() {
+        return batsMan2;
+    }
+
+    public void setBatsMan2(Player batsMan2) {
+        this.batsMan2 = batsMan2;
+    }
 }
+
