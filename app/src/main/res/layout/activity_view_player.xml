@@ -11,7 +11,7 @@
     code for player view. make a design and code.
     dont be lazy
     There must be a back -->
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:inputType="textPersonName"
@@ -131,7 +131,7 @@
         android:layout_below="@+id/playerValues"
         android:layout_marginBottom="10dp"
         android:text="Save"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:id="@+id/saveEdits"
         android:onClick="updatePlayerEditions"/>
 

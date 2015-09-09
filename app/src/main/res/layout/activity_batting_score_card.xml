@@ -337,7 +337,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/material_blue_grey_800"
-            android:text="END of The Player"
+            android:text="END of The Match"
             android:onClick="setMatchScores"/>
         </LinearLayout>
 

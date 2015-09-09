@@ -10,6 +10,7 @@ import com.example.jawadh.cricket.Other.Model.User;
 public class CricManagerApp extends Application {
     public UserController userController;
     //public LocationController locationController;
+    public static Boolean matchClicked = false;
     public final String PREFS_CODE = "CricPrefs";// use of this?
     private static LocalDatabase localDatabase;
     private static User currentUser;

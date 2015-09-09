@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.jawadh.cricket.Other.Controller.ClubController;
 import com.example.jawadh.cricket.Other.Controller.PlayerController;
@@ -37,7 +36,7 @@ public class BattingScoreCard extends ActionBarActivity {
     private String run1 = 0+"",ball1 = 0+"",four1=0+"",six1=0+"",SR1=0.0+"",run2 = 0+"",ball2 = 0+"",four2=0+"",
             six2=0+"",SR2=0.0+"",totalRun=0+"",wicket=0+"",ovr=0+"",extra=0+"",ball=0+"";
     private Button b0,b1,b2,b3,b4,b6,bWd,bNb,bLb,bB,bW,bEnd ; // here I have declared the score buttons
-    private String MatchVerses="";
+    private String MatchVerses="",playerusername;
     private int player_id1 = 0;
     private int player_id2 = 0;
     public static Boolean flag1 = false;
@@ -61,28 +60,10 @@ public class BattingScoreCard extends ActionBarActivity {
         Log.d("Player 2",player2.getText().length()+"");
 //        MatchVerses = extras.getString("verses");
         verses.setText(MatchVerses);
-        if( flag1 == false) {
-            flag1 = true;
-            String player = extras.getString("player_name");
-            player_id1 = extras.getInt("player_id");
-            Log.d("dsdfsdddfdfd",player);
-//            player1 = (TextView) findViewById(R.id.Player1);
-            player1.setText(player);
-            Toast.makeText(getApplicationContext(),"Select a suitable Player",Toast.LENGTH_SHORT);
-            startActivity(new Intent(this, PlayerList.class));
-
-        }
-        if(flag2 == false) {
-            flag2 = true;
-            String player = extras.getString("player_name");
-            Log.d("dsdfsdddfdfd",player);
-            player_id2 = extras.getInt("player_id");
-            //player2 = (TextView) findViewById(R.id.Player2);
-            player2.setText(player);
-            Toast.makeText(getApplicationContext(), "Select a suitable Player", Toast.LENGTH_SHORT);
-            startActivity(new Intent(this, PlayerList.class));
-        }
+        Log.d("ddddddddddddd",MatchVerses);
        // playerName=extras.getString("player_name");
+        playerusername = extras.getString("player_name");
+        player[0].setUserNname(playerusername);
 
         // if(player1.getText().toString() == null)
        // player1.setText(playerGet().getName());
@@ -265,7 +246,7 @@ public class BattingScoreCard extends ActionBarActivity {
                 // thread must be started to end data to the database
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
-                playerController.updateplayerScore(player[0]);
+                playerController.updateplayerScore(player[1]);
             }
 
         }
@@ -327,5 +308,13 @@ public class BattingScoreCard extends ActionBarActivity {
             match.setOvers(ovr);
         }
         clubController.updateMatchScore(match,userId);
+    }
+    public void getPlayer1(View view){
+        Intent intent = new Intent(this,PlayerList.class);
+        startActivity(intent);
+    }
+    public void getPlayer2(View view){
+        Intent intent = new Intent(this,PlayerList.class);
+        startActivity(intent);
     }
 }

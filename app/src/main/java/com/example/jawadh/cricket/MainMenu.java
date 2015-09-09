@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.net.URISyntaxException;
 public class MainMenu extends ActionBarActivity {
 
     private User user = CricManagerApp.getCurrentUser();
+
     private ClubController clubController = ClubController.getInstance();
     private Club club;
     private Match match;
@@ -63,23 +65,14 @@ public class MainMenu extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void gotoPageOne(View view){
-        // using this method has to go to the pageone. Score card and List.
-        // only manager granted access to the page.
-        // new match
-       // if(CricManagerApp.getCurrentUser().getType().equals("manager")) {
-            startActivity(new Intent(this, PageOne.class)); // only manager can access
-        //}
-       // alert("Please Login as a Manager :)");
-       // Toast.makeText(getApplicationContext(),"Login as a manager",Toast.LENGTH_SHORT);
-         // or toast a widget that is saying user is a player who is restricted.
-    }
+
     public void getPlayerList(View view){
         // anyone can go to this page who is in the club
         startActivity(new Intent(this,PlayerList.class));
     }
-    public void newMatchBatting(final View view){
-        String item;
+    public void newMatchBatting(View view){
+        final View v = view;
+        CricManagerApp.matchClicked = true;
         if(user.getType().equals("manager")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("New Match");
@@ -94,7 +87,7 @@ public class MainMenu extends ActionBarActivity {
             LinearLayout lay = new LinearLayout(this);
             lay.setOrientation(LinearLayout.VERTICAL);
             lay.addView(input);
-            lay.addView(bowlObat);
+           // lay.addView(bowlObat);
             builder.setView(lay);
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
@@ -107,10 +100,8 @@ public class MainMenu extends ActionBarActivity {
                             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                             StrictMode.setThreadPolicy(policy);
                             clubController.addMatch(match);
-                            if(bowlObat.getText().toString().toLowerCase() == "batting" || bowlObat.getText().toString().toLowerCase() == "bowling")
-                                scorecards(view,
-                                        input.getText().toString(),bowlObat.getText().toString().toLowerCase());
-
+                                scorecards(v, input.getText().toString().trim());//, bowlObat.getText().toString().toLowerCase());
+                                Log.d("fffffffffffffff", bowlObat.getText().toString().toLowerCase());
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (URISyntaxException e) {
@@ -124,8 +115,7 @@ public class MainMenu extends ActionBarActivity {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     // Do nothing.
                 }
-            });
-            builder.show();
+            });            builder.show();
         }
         else {
             Toast.makeText(getApplicationContext(),"You can't create " +
@@ -133,18 +123,19 @@ public class MainMenu extends ActionBarActivity {
         }
     }
     // get in to the score card for relevent activity.
-    public void scorecards(View view,String verses,String batObowl){
+    public void scorecards(View view,String verses){//},String batObowl){
         Intent intent;
-        if(batObowl == "batting") {
+       // if(batObowl==("batting")){
             intent = new Intent(this, BattingScoreCard.class);
             intent.putExtra("verses", verses);
             startActivity(intent);
-        }
-        else if(batObowl == "bowling"){
-            intent = new Intent(this, BowlingScoreCard.class);
-            intent.putExtra("verses", verses);
-            startActivity(intent);
-        }
+           // Log.d("ggggggggggggggggg", batObowl);
+       // }
+//        else if(batObowl==("bowling")){
+//            intent = new Intent(this, BowlingScoreCard.class);
+//            intent.putExtra("verses", verses);
+//            startActivity(intent);
+//        }
     }
 
 }

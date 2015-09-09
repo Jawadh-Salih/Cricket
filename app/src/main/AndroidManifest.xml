@@ -38,19 +38,13 @@
             android:name=".PlayerList"
             android:label="@string/title_activity_player_list" >
         </activity>
-        <activity
-            android:name=".PlayerForm"
-            android:label="@string/title_activity_player_form" >
-        </activity>
+
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name=".Login"
-            android:label="@string/title_activity_login" >
-        </activity>
+
         <activity
             android:name=".Register"
             android:label="@string/title_activity_register" >
@@ -81,14 +75,7 @@
             android:exported="true" >
         </service>
 
-        <activity
-            android:name=".CreateClub"
-            android:label="@string/title_activity_create_club" >
-        </activity>
-        <activity
-            android:name=".CreateMatch"
-            android:label="@string/title_activity_create_match" >
-        </activity>
+
         <activity
             android:name=".MatchScore"
             android:label="@string/title_activity_match_score" >
@@ -97,10 +84,7 @@
             android:name=".BowlingScoreCard"
             android:label="@string/title_activity_bowling_score_card" >
         </activity>
-        <activity
-            android:name=".PlayerListScore"
-            android:label="@string/title_activity_score_card" >
-        </activity>
+
     </application>
 
 </manifest>

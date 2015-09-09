@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -70,33 +71,43 @@ public class PlayerList extends ActionBarActivity {
     public void getPlayerList() throws IOException,URISyntaxException{
 
         ArrayList<Player> players = new ArrayList<>();
-        if(user.getType().trim().equals("manager")) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             players = playerController.getPlayerDetails(user.getClub());
-            Log.d(user.getUserNname(),user.getClub());
             ListAdapter playerListAdapter = new CustomAdapter(this,players);
             ListView playerlistView = (ListView) findViewById(R.id.playerlist);
             playerlistView.setAdapter(playerListAdapter);
-
-//            final ArrayList<Player> finalPlayers = players;
-//            playerlistView.setOnItemClickListener(
-//                    new AdapterView.OnItemClickListener() {
-//                        @Override
-//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                play(view,finalPlayers,position);
-//                        }
-//                    }
-//            );
+            final ArrayList<Player> finalPlayers = players;
+        if(CricManagerApp.matchClicked) {
+            playerlistView.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                play(view,finalPlayers,position);
+                        }
+                    }
+            );
         }
         else{
-            Log.d(user.getName(),"is not a manager. Something wrong with the current user"+ user.getType());
+            playerlistView.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            try {
+                                playerView(view,finalPlayers,position);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (URISyntaxException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+            );
         }
     }
 
 
     public void play(View view,ArrayList<Player> players,int position){
-        if(user.getType().equals("manager")) {
             final ArrayList<Player> finalPlayers = players;
             Intent intent = new Intent(this, BattingScoreCard.class);
             Log.d("The Player name is",finalPlayers.get(position).getName());
@@ -104,8 +115,18 @@ public class PlayerList extends ActionBarActivity {
             intent.putExtra("player_id",finalPlayers.get(position).getPlayer_id());
             startActivity(intent);
         }
-        else if(user.getType().equals("player")){
-            startActivity(new Intent(this,ViewPlayer.class));
-        }
+
+
+    public void playerView(View view,ArrayList<Player> player,int position) throws IOException, URISyntaxException {
+        Player player1 = playerController.getPlayerAll(player.get(position).getUserid());
+        Intent intent = new Intent(this,ViewPlayer.class);
+        intent.putExtra("player_name_selected",player1.getName());
+        intent.putExtra("player_username_selected",player1.getUserNname());
+        intent.putExtra("player_age_selected",player1.getAge());
+        intent.putExtra("player_score_selected",player1.getTotalScore());
+        intent.putExtra("player_fours_selected",player1.getFours());
+        intent.putExtra("player_sixes_selected",player1.getSixes());
+        startActivity(intent);
+
     }
 }
