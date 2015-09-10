@@ -94,13 +94,16 @@ public class PlayerController {
         HashMap<String,String> data = new HashMap<>();
         con = Connection.getInstance();
 
-        data.put("player_id",player.getPlayer_id()+"");
+        data.put("player_id",player.getUserid()+"");
         data.put("runs",player.getRun()+"");
         data.put("sixes",player.getSixes()+"");
         data.put("fours",player.getFours()+"");
-        data.put("srate",player.getsRate()+"");
-        data.put("balls",player.getBalls()+"");
-
+//        data.put("srate",player.getsRate()+"");
+//        data.put("balls",player.getBalls()+"");
+        Log.d("rrrrrrrrrrrrrrrrrrrrrrrrrrun",player.getRun()+"");
+        Log.d("rrrrrrrrrrrrrrrrrrrrrrrrrrun",player.getSixes()+"");
+        Log.d("rrrrrrrrrrrrrrrrrrrrrrrrrrun",player.getFours()+"");
+//        Log.d("rrrrrrrrrrrrrrrrrrrrrrrrrrun"player.getRun());
         con.post("update_playerscore.php",data);
 
     }

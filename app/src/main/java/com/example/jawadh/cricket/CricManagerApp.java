@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.jawadh.cricket.Other.Controller.UserController;
 import com.example.jawadh.cricket.Other.DataAccess.LocalDatabase;
 import com.example.jawadh.cricket.Other.Model.Match;
+import com.example.jawadh.cricket.Other.Model.Player;
 import com.example.jawadh.cricket.Other.Model.User;
 
 public class CricManagerApp extends Application {
@@ -16,6 +17,8 @@ public class CricManagerApp extends Application {
     private static LocalDatabase localDatabase;
     private static User currentUser;
     private static Match currentMatch;
+    private static Player setCurrentBatsMan1;
+    private static Player setCurrentBatsMan2;
 
     public CricManagerApp() {
         super();
@@ -41,5 +44,21 @@ public class CricManagerApp extends Application {
     }
     public static Match getCurrentMatch(){
         return currentMatch;
+    }
+
+    public static Player getCurrentBatsMan1() {
+        return setCurrentBatsMan1;
+    }
+
+    public static void setCurrentBatsMan1(Player setCurrentBatsMan1) {
+        CricManagerApp.setCurrentBatsMan1 = setCurrentBatsMan1;
+    }
+
+    public static Player getCurrentBatsMan2() {
+        return setCurrentBatsMan2;
+    }
+
+    public static void setCurrentBatsMan2(Player setCurrentBatsMan2) {
+        CricManagerApp.setCurrentBatsMan2 = setCurrentBatsMan2;
     }
 }

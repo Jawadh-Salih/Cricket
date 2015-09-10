@@ -18,7 +18,7 @@
     <application
         android:name=".CricManagerApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/criclogo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity

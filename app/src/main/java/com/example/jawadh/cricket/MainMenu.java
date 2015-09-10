@@ -77,17 +77,17 @@ public class MainMenu extends ActionBarActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("New Match");
             final EditText input = new EditText(MainMenu.this);
-            final EditText bowlObat = new EditText(MainMenu.this);
+            final EditText maxOvers = new EditText(MainMenu.this);
 
             input.setInputType(InputType.TYPE_CLASS_TEXT);
-            bowlObat.setInputType(InputType.TYPE_CLASS_TEXT);
+            maxOvers.setInputType(InputType.TYPE_CLASS_NUMBER);
             input.setHint(" Match Vs ");
-            bowlObat.setHint(" type bowling or batting");
+            maxOvers.setHint(" Overs ");
 
             LinearLayout lay = new LinearLayout(this);
             lay.setOrientation(LinearLayout.VERTICAL);
             lay.addView(input);
-           // lay.addView(bowlObat);
+            lay.addView(maxOvers);
             builder.setView(lay);
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
@@ -96,6 +96,7 @@ public class MainMenu extends ActionBarActivity {
                         match = new Match();
                     if(input.getText().toString().length()>0) {
                         match.setVerses(input.getText().toString());
+                        match.setMaxOvers(Integer.parseInt(maxOvers.getText().toString()));
                         try {
                             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                             StrictMode.setThreadPolicy(policy);

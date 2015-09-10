@@ -51,8 +51,8 @@ public class ClubController {
         data.put("verses",match.getVerses());
         data.put("score",match.getScore()+"");
        // data.put("wickets",match.getWickets()+"");
-        data.put("extras",match.getExtras()+"");
-        data.put("overs",match.getOvers());
+//        data.put("extras",match.getExtras()+"");
+//        data.put("overs",match.getOvers());
         data.put("status","Win");
 
         con.post("add_clubscore.php",data);

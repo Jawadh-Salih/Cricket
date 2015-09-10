@@ -1,8 +1,8 @@
 package com.example.jawadh.cricket;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -39,36 +39,48 @@ public class BattingScoreCard extends ActionBarActivity {
     private String MatchVerses="";
     private int player_id1 = 0;
     private int player_id2 = 0;
+    private String playerName1,playerName2;
     private Player[] player = new Player[2];
-    private String playerName1,getPlayerName2;
     private Match match = CricManagerApp.getCurrentMatch();
+    private Player batsman1 = CricManagerApp.getCurrentBatsMan1();
+    private Player batsman2 = CricManagerApp.getCurrentBatsMan2();
+    public static int flagPlayer1 = 0;
+    public static int flagPlayer2 = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_batting_score_card);
         Bundle extras=getIntent().getExtras();
-        player[0] = new Player();
-        player[1] = new Player();
-        player[0].setPlayerView((TextView)findViewById(R.id.Player1));
-        player[1].setPlayerView((TextView)findViewById(R.id.Player2));
-
-        playerName1 = extras.getString("player_name");
+        player1 = (TextView) findViewById(R.id.Player1);
+        player2 = (TextView) findViewById(R.id.Player2);
         MatchVerses = match.getVerses();
-        verses = (TextView) findViewById(R.id.oclubname);
-        player1 = player[0].getPlayerView();
-        player2 = player[1].getPlayerView();
-        player[0].setOnStrike(true);
-        player[1].setOnStrike(false);
-//        MatchVerses = extras.getString("verses");
-        verses.setText(MatchVerses);
-        //player1.setText(playerName1);
-        Log.d("ddddddddddddlllllllllllllllllllllllllllllllld",MatchVerses);
-       // playerName=extras.getString("player_name");
-        playerName1 = extras.getString("player_name");
-        player[0].setUserNname(playerName1);
 
-        // if(player1.getText().toString() == null)
-       // player1.setText(playerGet().getName());
+
+        verses = (TextView) findViewById(R.id.oclubname);
+
+        verses.setText(MatchVerses);
+        if(flagPlayer1==2) {
+            playerName1 = batsman1.getName();
+            batsman1.setOnStrike(true);
+            Log.d("fffffffffgggggggggggg", batsman1.getName());
+            Log.d("fffffffffgggggggggggg", flagPlayer1 + "");
+            player[0] = batsman1;
+        }
+        if(flagPlayer2==2) {
+            playerName2 = batsman2.getName();
+            batsman2.setOnStrike(false);
+            Log.d("fffffffffgggggggggggg", batsman2.getName());
+            Log.d("fffffffffgggggggggggg",flagPlayer2+"");
+            player[1] = batsman2;
+        }
+        if(flagPlayer1 == 0 || flagPlayer2==0){
+            playerName1 = "Click me";
+            playerName2 = "Click me";
+        }
+        player1.setText(playerName1);
+        player2.setText(playerName2);
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,6 +128,17 @@ public class BattingScoreCard extends ActionBarActivity {
         bB = (Button)findViewById(R.id.bye);
         bW = (Button)findViewById(R.id.out);
         bEnd = (Button)findViewById(R.id.endmatch);
+
+        player[0].setRun(runs1);
+        player[0].setSixes(sixes1);
+        player[0].setFours(fours1);
+        player[0].setsRate(sr1);
+        player[0].setBalls(balls1);
+        player[1].setRun(runs2);
+        player[1].setSixes(sixes2);
+        player[1].setFours(fours2);
+        player[1].setsRate(sr2);
+        player[1].setBalls(balls2);
 
         if(player[0].isOnStrike()){
             if(view.getId() == b0.getId()){
@@ -174,15 +197,26 @@ public class BattingScoreCard extends ActionBarActivity {
             if(view.getId() == bW.getId()){
                 balls1 +=1;
                 wickets+=1;
+                flagPlayer1=0;
+                getPlayer1(view);
                 // thread must be started to end data to the database
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                playerController.updateplayerScore(player[0]);
+                AsyncTask at = new AsyncTask() {
+                    @Override
+                    protected Object doInBackground(Object[] params) {
+                        try {
+                            playerController.updateplayerScore(player[0]);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+
+                        return null;
+                    }
+                };
+                at.execute();
             }
-            if(view.getId() == bEnd.getId()){
-                //balls2 +=1;
-                //total score send to the database.
-            }
+
         }
         // player 2 details will be updated.
         else if(player[1].isOnStrike()){
@@ -245,10 +279,24 @@ public class BattingScoreCard extends ActionBarActivity {
             if(view.getId() == bW.getId()){
                 balls2 += 1;
                 wickets+= 1;
+                flagPlayer2 = 0;
+                getPlayer2(view);
                 // thread must be started to end data to the database
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                playerController.updateplayerScore(player[1]);
+                AsyncTask at = new AsyncTask() {
+                    @Override
+                    protected Object doInBackground(Object[] params) {
+                        try {
+                            playerController.updateplayerScore(player[1]);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+
+                        return null;
+                    }
+                };
+                at.execute();
             }
 
         }
@@ -285,38 +333,43 @@ public class BattingScoreCard extends ActionBarActivity {
         textOvrs.setText(ovr);
         textExtra.setText(extra);
 
-        player[0].setPlayer_id(player_id1+"");
-        player[0].setRun(runs1);
-        player[0].setSixes(sixes1);
-        player[0].setFours(fours1);
-        player[0].setsRate(sr1);
-        player[0].setBalls(balls1);
-        player[1].setPlayer_id(player_id2+"");
-        player[1].setRun(runs2);
-        player[1].setSixes(sixes2);
-        player[1].setFours(fours2);
-        player[1].setsRate(sr2);
-        player[1].setBalls(balls2);
+
     }
 
     public void setMatchScores(View view) throws IOException, URISyntaxException {
-        Match match = new Match();
-        int userId = user.getUserid();
-        if(wickets == 10) {
+
+        final int userId = user.getUserid();
+        if(wickets == 10 || match.getOvers() == match.getMaxOvers()+"") {
             match.setVerses(MatchVerses);
             match.setScore(totalRuns);
             match.setWickets(wickets);
             match.setExtras(extras);
             match.setOvers(ovr);
         }
-        clubController.updateMatchScore(match,userId);
+        AsyncTask at = new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] params) {
+                try {
+                    clubController.updateMatchScore(match,userId);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+        };
+        at.execute();
     }
     public void getPlayer1(View view){
         Intent intent = new Intent(this,PlayerList.class);
+        flagPlayer1 = 1;
         startActivity(intent);
     }
     public void getPlayer2(View view){
         Intent intent = new Intent(this,PlayerList.class);
+        flagPlayer2 = 1;
         startActivity(intent);
     }
 }

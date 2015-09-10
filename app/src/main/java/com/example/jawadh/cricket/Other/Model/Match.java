@@ -15,6 +15,7 @@ public class Match {
     private int extras;
     private Player batsMan1;
     private Player batsMan2;
+    private int maxOvers;
 
     public int getMatchid() {
         return matchid;
@@ -86,6 +87,14 @@ public class Match {
 
     public void setBatsMan2(Player batsMan2) {
         this.batsMan2 = batsMan2;
+    }
+
+    public int getMaxOvers() {
+        return maxOvers;
+    }
+
+    public void setMaxOvers(int maxOvers) {
+        this.maxOvers = maxOvers;
     }
 }
 

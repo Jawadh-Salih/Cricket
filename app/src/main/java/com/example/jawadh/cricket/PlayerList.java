@@ -13,6 +13,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.jawadh.cricket.Other.Controller.PlayerController;
+import com.example.jawadh.cricket.Other.Model.Match;
 import com.example.jawadh.cricket.Other.Model.Player;
 import com.example.jawadh.cricket.Other.Model.User;
 import com.example.jawadh.cricket.Other.Supports.CustomAdapter;
@@ -27,6 +28,8 @@ public class PlayerList extends ActionBarActivity {
     private PlayerController playerController = PlayerController.getInstance();
     //PlayerHandler playerHandler = PlayerHandler.getInstance();
     private User user = CricManagerApp.getCurrentUser();
+    private Match match = CricManagerApp.getCurrentMatch();
+    private Player p1,p2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,9 +113,23 @@ public class PlayerList extends ActionBarActivity {
     public void play(View view,ArrayList<Player> players,int position){
             final ArrayList<Player> finalPlayers = players;
             Intent intent = new Intent(this, BattingScoreCard.class);
-            Log.d("The Player name is",finalPlayers.get(position).getName());
+            Log.d("The Player name is", finalPlayers.get(position).getUserid()+"");
             intent.putExtra("player_name", finalPlayers.get(position).getName());
             intent.putExtra("player_id",finalPlayers.get(position).getPlayer_id());
+            if(BattingScoreCard.flagPlayer1==1) {
+                p1 = players.get(position);
+                match.setBatsMan2(finalPlayers.get(position));
+                CricManagerApp.setCurrentBatsMan1(p1);
+                Log.d("cccccccccccccccccccccccccc",finalPlayers.get(position).getUserid()+"");
+                BattingScoreCard.flagPlayer1 = 2;
+            }
+            else if(BattingScoreCard.flagPlayer2==1){
+                p2 = players.get(position);
+                CricManagerApp.setCurrentBatsMan2(p2);
+                match.setBatsMan2(finalPlayers.get(position));
+                Log.d("cccccccccccccccccccccccccc",finalPlayers.get(position).getName());
+                BattingScoreCard.flagPlayer2 = 2;
+            }
             startActivity(intent);
         }
 
