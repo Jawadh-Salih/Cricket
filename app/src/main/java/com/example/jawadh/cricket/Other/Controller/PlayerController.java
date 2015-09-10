@@ -90,10 +90,11 @@ public class PlayerController {
         }
         return  players;
     }
-    public void updateplayerScore(Player player) throws IOException,URISyntaxException{
+    public void updateplayerScore(Player player,String verses) throws IOException,URISyntaxException{
         HashMap<String,String> data = new HashMap<>();
         con = Connection.getInstance();
 
+        data.put("verses",verses);
         data.put("player_id",player.getUserid()+"");
         data.put("runs",player.getRun()+"");
         data.put("sixes",player.getSixes()+"");

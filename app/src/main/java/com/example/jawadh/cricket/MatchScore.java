@@ -29,7 +29,7 @@ public class MatchScore extends ActionBarActivity {
         setContentView(R.layout.activity_match_score);
         Bundle extras = getIntent().getExtras();
         try {
-            getPlayerListScore(extras.getString("verses"));
+            getPlayerListScore(CricManagerApp.getCurrentMatch().getVerses());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {

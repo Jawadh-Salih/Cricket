@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jawadh.cricket.Other.Controller.ClubController;
 import com.example.jawadh.cricket.Other.Controller.PlayerController;
@@ -273,7 +274,7 @@ public class BattingScoreCard extends ActionBarActivity {
                     @Override
                     protected Object doInBackground(Object[] params) {
                         try {
-                            playerController.updateplayerScore(player[0]);
+                            playerController.updateplayerScore(player[0],match.getVerses());
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (URISyntaxException e) {
@@ -355,7 +356,7 @@ public class BattingScoreCard extends ActionBarActivity {
                     @Override
                     protected Object doInBackground(Object[] params) {
                         try {
-                            playerController.updateplayerScore(player[1]);
+                            playerController.updateplayerScore(player[1],match.getVerses());
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (URISyntaxException e) {
@@ -402,6 +403,9 @@ public class BattingScoreCard extends ActionBarActivity {
         textOvrs.setText(ovr);
         textExtra.setText(extra);
 
+        if(textOvrs.getText().equals(match.getMaxOvers()) || textWkts.getText().equals("10")){
+            Toast.makeText(this,"Please touch the End of Match ",Toast.LENGTH_SHORT);
+        }
 
     }
 
@@ -450,7 +454,7 @@ public class BattingScoreCard extends ActionBarActivity {
         startActivity(intent);
     }
     public void gotoMaenu(View view){
-        startActivity(new Intent(this,MainMenu.class));
+        startActivity(new Intent(this,MatchScore.class));
     }
 }
 
