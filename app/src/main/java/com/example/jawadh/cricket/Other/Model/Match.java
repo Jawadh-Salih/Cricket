@@ -6,15 +6,15 @@ import java.util.Date;
  * Created by Jawadh on 8/8/2015.
  */
 public class Match {
-    private int matchid;
+    private int matchid = 0;
     private Date matchDate;
-    private String verses;
-    private int Score;
-    private int wickets;
-    private String overs;
-    private int extras;
-    private Player batsMan1;
-    private Player batsMan2;
+    private String verses="";
+    private int Score = 0;
+    private int wickets = 0 ;
+    private String overs="0.0";
+    private int extras = 0;
+    private Player batsMan1 = new Player();
+    private Player batsMan2 = new Player();
     private int maxOvers;
 
     public int getMatchid() {

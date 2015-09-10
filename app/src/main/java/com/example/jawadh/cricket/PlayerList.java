@@ -112,10 +112,10 @@ public class PlayerList extends ActionBarActivity {
 
     public void play(View view,ArrayList<Player> players,int position){
             final ArrayList<Player> finalPlayers = players;
-            Intent intent = new Intent(this, BattingScoreCard.class);
+            //Intent intent = new Intent(this, BattingScoreCard.class);
             Log.d("The Player name is", finalPlayers.get(position).getUserid()+"");
-            intent.putExtra("player_name", finalPlayers.get(position).getName());
-            intent.putExtra("player_id",finalPlayers.get(position).getPlayer_id());
+           // intent.putExtra("player_name", finalPlayers.get(position).getName());
+            //intent.putExtra("player_id",finalPlayers.get(position).getPlayer_id());
             if(BattingScoreCard.flagPlayer1==1) {
                 p1 = players.get(position);
                 match.setBatsMan2(finalPlayers.get(position));
@@ -130,7 +130,11 @@ public class PlayerList extends ActionBarActivity {
                 Log.d("cccccccccccccccccccccccccc",finalPlayers.get(position).getName());
                 BattingScoreCard.flagPlayer2 = 2;
             }
-            startActivity(intent);
+        Log.d("ddddddddddddddddddddd","DDDDDDDDDDDDDDD");
+            finish();
+        Log.d("ddddddddddddddddddddd","DFFFFFFFFFFFFF");
+            //startActivity(intent);
+
         }
 
 

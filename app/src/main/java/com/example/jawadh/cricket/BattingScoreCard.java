@@ -41,11 +41,41 @@ public class BattingScoreCard extends ActionBarActivity {
     private int player_id2 = 0;
     private String playerName1,playerName2;
     private Player[] player = new Player[2];
-    private Match match = CricManagerApp.getCurrentMatch();
+    private Match match = CricManagerApp.getCurrentMatch();;
     private Player batsman1 = CricManagerApp.getCurrentBatsMan1();
     private Player batsman2 = CricManagerApp.getCurrentBatsMan2();
     public static int flagPlayer1 = 0;
     public static int flagPlayer2 = 0;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        player1 = (TextView) findViewById(R.id.Player1);
+        player2 = (TextView) findViewById(R.id.Player2);
+        if(flagPlayer1==2) {
+            batsman1 = CricManagerApp.getCurrentBatsMan1();
+            playerName1 = batsman1.getName();
+            batsman1.setOnStrike(true);
+            Log.d("fffffffffgggggggggggg", batsman1.getName());
+            Log.d("fffffffffgggggggggggg", flagPlayer1 + "");
+            player[0] = batsman1;
+            player1.setText(playerName1);
+            setInitValuesP1();
+            flagPlayer1 = 3;
+        }
+        if(flagPlayer2==2) {
+            batsman2 = CricManagerApp.getCurrentBatsMan2();
+            playerName2 = batsman2.getName();
+            batsman2.setOnStrike(false);
+            Log.d("fffffffffgggggggggggg", batsman2.getName());
+            Log.d("fffffffffgggggggggggg",flagPlayer2+"");
+            player[1] = batsman2;
+            setInitValuesP2();
+            player2.setText(playerName2);
+            flagPlayer2 = 3;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +83,7 @@ public class BattingScoreCard extends ActionBarActivity {
         Bundle extras=getIntent().getExtras();
         player1 = (TextView) findViewById(R.id.Player1);
         player2 = (TextView) findViewById(R.id.Player2);
+
         MatchVerses = match.getVerses();
 
 
@@ -76,9 +107,13 @@ public class BattingScoreCard extends ActionBarActivity {
         if(flagPlayer1 == 0 || flagPlayer2==0){
             playerName1 = "Click me";
             playerName2 = "Click me";
+            player[0] = new Player();
+            player[1] = new Player();
         }
         player1.setText(playerName1);
         player2.setText(playerName2);
+        setViews();
+        setInitValues();
 
 
     }
@@ -101,7 +136,7 @@ public class BattingScoreCard extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void updateText(View view) throws IOException, URISyntaxException {
+    public void setViews(){
         textR1 = (TextView)findViewById(R.id.runsP1);
         textB1 = (TextView)findViewById(R.id.ballsP1);
         text41 = (TextView)findViewById(R.id.foursP1);
@@ -116,6 +151,35 @@ public class BattingScoreCard extends ActionBarActivity {
         textWkts = (TextView) findViewById(R.id.twkts);
         textOvrs = (TextView)findViewById(R.id.tovrs);
         textExtra = (TextView)findViewById(R.id.textra);
+
+
+    }
+    public void setInitValuesP2(){
+        textR2 .setText(match.getBatsMan2().getRun()+"");
+        textB2 .setText(match.getBatsMan2().getBalls()+"");
+        text42 .setText(match.getBatsMan2().getFours()+"");
+        text62 .setText(match.getBatsMan2().getSixes()+"");
+        textSR2 .setText(match.getBatsMan2().getsRate()+"");
+    }
+    public void setInitValues(){
+
+
+        textTotR.setText(match.getScore()+"");
+        textWkts .setText(match.getWickets()+"");
+        textOvrs .setText(match.getOvers()+"");
+        textExtra .setText(match.getExtras()+"");
+
+    }
+    public void setInitValuesP1(){
+
+        textR1.setText(match.getBatsMan1().getRun()+"");
+        textB1.setText(match.getBatsMan1().getBalls()+"");
+        text41.setText(match.getBatsMan1().getFours()+"");
+        text61.setText(match.getBatsMan1().getSixes() + "");
+        textSR1 .setText(match.getBatsMan1().getsRate()+"");
+    }
+    public void updateText(View view) throws IOException, URISyntaxException {
+        setViews();
         b0 = (Button)findViewById(R.id.button0);
         b1 = (Button)findViewById(R.id.button1);
         b2 = (Button)findViewById(R.id.button2);
@@ -140,6 +204,11 @@ public class BattingScoreCard extends ActionBarActivity {
         player[1].setsRate(sr2);
         player[1].setBalls(balls2);
 
+        match.setVerses(MatchVerses);
+        match.setScore(totalRuns);
+        match.setWickets(wickets);
+        match.setExtras(extras);
+        match.setOvers(ovr);
         if(player[0].isOnStrike()){
             if(view.getId() == b0.getId()){
                 balls1 +=1;
@@ -336,7 +405,7 @@ public class BattingScoreCard extends ActionBarActivity {
 
     }
 
-    public void setMatchScores(View view) throws IOException, URISyntaxException {
+    public void setMatchScores(final View view) throws IOException, URISyntaxException {
 
         final int userId = user.getUserid();
         if(wickets == 10 || match.getOvers() == match.getMaxOvers()+"") {
@@ -350,7 +419,7 @@ public class BattingScoreCard extends ActionBarActivity {
             @Override
             protected Object doInBackground(Object[] params) {
                 try {
-                    clubController.updateMatchScore(match,userId);
+                    clubController.updateMatchScore(match, userId);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (URISyntaxException e) {
@@ -358,6 +427,14 @@ public class BattingScoreCard extends ActionBarActivity {
                 }
 
                 return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if(o==null){
+                    gotoMaenu(view);
+                }
             }
         };
         at.execute();
@@ -372,4 +449,8 @@ public class BattingScoreCard extends ActionBarActivity {
         flagPlayer2 = 1;
         startActivity(intent);
     }
+    public void gotoMaenu(View view){
+        startActivity(new Intent(this,MainMenu.class));
+    }
 }
+
